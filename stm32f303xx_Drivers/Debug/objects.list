@@ -1,3 +1,4 @@
+"./Drivers/Src/stm32f303xx_gpio_drv.o"
 "./Src/main.o"
 "./Src/syscalls.o"
 "./Src/sysmem.o"

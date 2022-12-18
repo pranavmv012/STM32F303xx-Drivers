@@ -1,21 +1,18 @@
 /*
- * stm32f303xx.h
- *This device specifiation file supports GPIO, SPI, I2C and UART peripherals.
- *So the base addresses of the other peripheral on the buses are not declared in this
-file. Please add the baseadress if you want to use other peipherals than above mentioned
- *  Created on: Dec 12, 2022
- *      Author: Pranav Vasudevan
+ * Name				:stm32f303xx.h
+ * Description:		:This device specification file supports GPIO, SPI, I2C and UART peripherals.
+ 					 So the base addresses of the other peripheral on the buses are not declared in this
+					 file. Please add the base address if you want to use other peripherals than above mentioned
+ *  Created on      :2022/12/12
+ *  Author          :Pranav Vasudevan- pranavmv012@gmail.com
  */
 
 #ifndef INC_STM32F303XX_H_
 #define INC_STM32F303XX_H_
 #include <stdint.h>
 #define __vo	volatile
-/*This device specifiation file supports GPIO, SPI, I2C and UART peripherals.
-So the base addresses of the other peripheral on the buses are not declared in this
-file. Please add the baseadress if you want to use other peipherals than above mentioned*/
 
-
+/*Base addresses of Memory banks*/
 #define FLASH_BASE_ADDR		0x08000000UL
 #define SRAM1_BASE_ADDR		0x20000000UL
 #define CCM_RAM_BASE_ADDR	0x10000000UL
@@ -23,7 +20,6 @@ file. Please add the baseadress if you want to use other peipherals than above m
 #define SRAM_BASE_ADDR		SRAM1_BASE_ADDR
 
 /*Peripheral base addresses- RM page 59*/
-
 #define	PER_BASE_ADDR		0x40000000UL
 #define APB1_PER_BASE_ADDR	PER_BASE_ADDR
 #define APB2_PER_BASE_ADDR	0x40010000UL
@@ -32,8 +28,10 @@ file. Please add the baseadress if you want to use other peipherals than above m
 #define AHB3_PER_BASE_ADDR	0x50000000UL
 #define AHB4_PER_BASE_ADDR	0x60000000UL
 
-/*Base addresses of peripherals which are hanging on to AHB2 BUS-GPIO*/
+/*RCC*/
+#define RCC_BASE_ADDR 		(AHB1_PER_BASE_ADDR+ 0x1000UL)
 
+/*Base addresses of peripherals which are hanging on to AHB2 BUS-GPIO*/
 #define GPIOA_BASE_ADDR		(AHB2_PER_BASE_ADDR+ 0x0000UL)
 #define GPIOB_BASE_ADDR		(AHB2_PER_BASE_ADDR+ 0x0400UL)
 #define GPIOC_BASE_ADDR		(AHB2_PER_BASE_ADDR+ 0x0800UL)
@@ -83,6 +81,25 @@ typedef struct
  __vo uint32_t BRR;
 }GPIO_Reg_Def_t;
 
+/*Structures for peripheral registers -GPIO*/
+
+typedef struct
+{
+ __vo uint32_t RCC_CR;
+ __vo uint32_t RCC_CFGR;
+ __vo uint32_t RCC_CIR;
+ __vo uint32_t RCC_APB2RSTR;
+ __vo uint32_t CC_APB1RSTR;
+ __vo uint32_t RCC_AHBENR;
+ __vo uint32_t RCC_APB2ENR;
+ __vo uint32_t RCC_APB1ENR;
+ __vo uint32_t RCC_BDCR;
+ __vo uint32_t RCC_CSR;
+ __vo uint32_t RCC_AHBRSTR;
+ __vo uint32_t RCC_CFGR2;
+ __vo uint32_t RCC_CFGR3;
+}RCC_Reg_Def_t;
+
 /*pointer variable to access individual register of a peripheral */
 #define GPIOA	(GPIO_Reg_Def_t*) GPIOA_BASE_ADDR
 #define GPIOB	(GPIO_Reg_Def_t*) GPIOB_BASE_ADDR
@@ -93,7 +110,9 @@ typedef struct
 #define GPIOG	(GPIO_Reg_Def_t*) GPIOG_BASE_ADDR
 #define GPIOH	(GPIO_Reg_Def_t*) GPIOH_BASE_ADDR
 
-/*Use these pointer variable to access each register in a peripheral*/
+#define RCC (RCC_Reg_Def_t*) RCC_BASE_ADDR
+
+/*Use these pointer variable to access each register in a peripheral-GPIO*/
 GPIO_Reg_Def_t *pGPIOA = GPIOA;
 GPIO_Reg_Def_t *pGPIOB = GPIOB;
 GPIO_Reg_Def_t *pGPIOC = GPIOC;
@@ -102,6 +121,32 @@ GPIO_Reg_Def_t *pGPIOE = GPIOE;
 GPIO_Reg_Def_t *pGPIOF = GPIOF;
 GPIO_Reg_Def_t *pGPIOG = GPIOG;
 GPIO_Reg_Def_t *pGPIOH = GPIOH;
+
+/*Use these pointer variable to access each register in a peripheral-RCC*/
+RCC_Reg_Def_t *pRCC = RCC;
+/*Macros for enabling peripheral clock*/
+
+#define GPIOA_PCLK_EN() ( RCC->RCC_AHBENR |= (1<<17) )
+#define GPIOB_PCLK_EN() ( RCC->RCC_AHBENR |= (1<<18) )
+#define GPIOC_PCLK_EN() ( RCC->RCC_AHBENR |= (1<<19) )
+#define GPIOD_PCLK_EN() ( RCC->RCC_AHBENR |= (1<<20) )
+#define GPIOE_PCLK_EN() ( RCC->RCC_AHBENR |= (1<<21) )
+#define GPIOF_PCLK_EN() ( RCC->RCC_AHBENR |= (1<<22) )
+#define GPIOG_PCLK_EN() ( RCC->RCC_AHBENR |= (1<<23) )
+/*sysconf clock */
+
+#define SYSCFG_PCLK_EN() ( RCC->RCC_APB2ENR |= (1<<0) )
+/*Macros for disabling peripheral clock*/
+#define GPIOA_PCLK_DI() ( RCC->RCC_AHBENR &= ~(1<<17) )
+#define GPIOB_PCLK_DI() ( RCC->RCC_AHBENR &= ~(1<<18) )
+#define GPIOC_PCLK_DI() ( RCC->RCC_AHBENR &= ~(1<<19) )
+#define GPIOD_PCLK_DI() ( RCC->RCC_AHBENR &= ~(1<<20) )
+#define GPIOE_PCLK_DI() ( RCC->RCC_AHBENR &= ~(1<<21) )
+#define GPIOF_PCLK_DI() ( RCC->RCC_AHBENR &= ~(1<<22) )
+#define GPIOG_PCLK_DI() ( RCC->RCC_AHBENR &= ~(1<<23) )
+
+#define SYSCFG_PCLK_DI() ( RCC->RCC_APB2ENR &= ~(1<<0) )
+
 /**/
 
 

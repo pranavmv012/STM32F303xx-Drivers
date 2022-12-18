@@ -11,6 +11,7 @@ RM := rm -rf
 -include sources.mk
 -include Startup/subdir.mk
 -include Src/subdir.mk
+-include Drivers/Src/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -59,8 +60,8 @@ all: main-build
 main-build: stm32f303xx_Drivers.elf secondary-outputs
 
 # Tool invocations
-stm32f303xx_Drivers.elf: $(OBJS) $(USER_OBJS) E:\GITHUB\ repo-personal\Drivers-\stm32f303xx_Drivers\STM32F303RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "stm32f303xx_Drivers.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\GITHUB repo-personal\Drivers-\stm32f303xx_Drivers\STM32F303RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="stm32f303xx_Drivers.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+stm32f303xx_Drivers.elf: $(OBJS) $(USER_OBJS) E:\GITHUB\ repo-personal\Drivers-\local-Drivers\stm32f303xx_Drivers\STM32F303RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "stm32f303xx_Drivers.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"E:\GITHUB repo-personal\Drivers-\local-Drivers\stm32f303xx_Drivers\STM32F303RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="stm32f303xx_Drivers.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
