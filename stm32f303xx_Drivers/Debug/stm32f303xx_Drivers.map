@@ -32,10 +32,10 @@ Discarded input sections
  .debug_abbrev  0x0000000000000000       0x13 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .debug_aranges
                 0x0000000000000000       0x18 ./Drivers/Src/stm32f303xx_gpio_drv.o
- .debug_macro   0x0000000000000000       0x1b ./Drivers/Src/stm32f303xx_gpio_drv.o
+ .debug_macro   0x0000000000000000       0x11 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .debug_macro   0x0000000000000000      0xab4 ./Drivers/Src/stm32f303xx_gpio_drv.o
- .debug_line    0x0000000000000000       0xaf ./Drivers/Src/stm32f303xx_gpio_drv.o
- .debug_str     0x0000000000000000     0x2e05 ./Drivers/Src/stm32f303xx_gpio_drv.o
+ .debug_line    0x0000000000000000       0x46 ./Drivers/Src/stm32f303xx_gpio_drv.o
+ .debug_str     0x0000000000000000     0x2de8 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .comment       0x0000000000000000       0x54 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .ARM.attributes
                 0x0000000000000000       0x39 ./Drivers/Src/stm32f303xx_gpio_drv.o
@@ -627,10 +627,10 @@ LOAD c:/st/stm32cubeide_1.8.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_line    0x0000000000000000      0x3e5 ./Src/main.o
  .debug_line    0x00000000000003e5       0x84 ./Startup/startup_stm32f303retx.o
 
-.debug_str      0x0000000000000000     0x4701
- .debug_str     0x0000000000000000     0x46d0 ./Src/main.o
-                                       0x4834 (size before relaxing)
- .debug_str     0x00000000000046d0       0x31 ./Startup/startup_stm32f303retx.o
+.debug_str      0x0000000000000000     0x470f
+ .debug_str     0x0000000000000000     0x46de ./Src/main.o
+                                       0x4842 (size before relaxing)
+ .debug_str     0x00000000000046de       0x31 ./Startup/startup_stm32f303retx.o
                                          0x7a (size before relaxing)
 
 .comment        0x0000000000000000       0x53

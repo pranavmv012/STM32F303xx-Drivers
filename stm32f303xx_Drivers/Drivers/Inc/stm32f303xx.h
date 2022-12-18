@@ -126,24 +126,24 @@ GPIO_Reg_Def_t *pGPIOH = GPIOH;
 RCC_Reg_Def_t *pRCC = RCC;
 /*Macros for enabling peripheral clock*/
 
-#define GPIOA_PCLK_EN() ( RCC->RCC_AHBENR |= (1<<17) )
-#define GPIOB_PCLK_EN() ( RCC->RCC_AHBENR |= (1<<18) )
-#define GPIOC_PCLK_EN() ( RCC->RCC_AHBENR |= (1<<19) )
-#define GPIOD_PCLK_EN() ( RCC->RCC_AHBENR |= (1<<20) )
-#define GPIOE_PCLK_EN() ( RCC->RCC_AHBENR |= (1<<21) )
-#define GPIOF_PCLK_EN() ( RCC->RCC_AHBENR |= (1<<22) )
-#define GPIOG_PCLK_EN() ( RCC->RCC_AHBENR |= (1<<23) )
+#define GPIOA_PCLK_EN() ( pRCC->RCC_AHBENR |= (1<<17) )
+#define GPIOB_PCLK_EN() ( pRCC->RCC_AHBENR |= (1<<18) )
+#define GPIOC_PCLK_EN() ( pRCC->RCC_AHBENR |= (1<<19) )
+#define GPIOD_PCLK_EN() ( pRCC->RCC_AHBENR |= (1<<20) )
+#define GPIOE_PCLK_EN() ( pRCC->RCC_AHBENR |= (1<<21) )
+#define GPIOF_PCLK_EN() ( pRCC->RCC_AHBENR |= (1<<22) )
+#define GPIOG_PCLK_EN() ( pRCC->RCC_AHBENR |= (1<<23) )
 /*sysconf clock */
 
 #define SYSCFG_PCLK_EN() ( RCC->RCC_APB2ENR |= (1<<0) )
 /*Macros for disabling peripheral clock*/
-#define GPIOA_PCLK_DI() ( RCC->RCC_AHBENR &= ~(1<<17) )
-#define GPIOB_PCLK_DI() ( RCC->RCC_AHBENR &= ~(1<<18) )
-#define GPIOC_PCLK_DI() ( RCC->RCC_AHBENR &= ~(1<<19) )
-#define GPIOD_PCLK_DI() ( RCC->RCC_AHBENR &= ~(1<<20) )
-#define GPIOE_PCLK_DI() ( RCC->RCC_AHBENR &= ~(1<<21) )
-#define GPIOF_PCLK_DI() ( RCC->RCC_AHBENR &= ~(1<<22) )
-#define GPIOG_PCLK_DI() ( RCC->RCC_AHBENR &= ~(1<<23) )
+#define GPIOA_PCLK_DI() ( pRCC->RCC_AHBENR &= ~(1<<17) )
+#define GPIOB_PCLK_DI() ( pRCC->RCC_AHBENR &= ~(1<<18) )
+#define GPIOC_PCLK_DI() ( pRCC->RCC_AHBENR &= ~(1<<19) )
+#define GPIOD_PCLK_DI() ( pRCC->RCC_AHBENR &= ~(1<<20) )
+#define GPIOE_PCLK_DI() ( pRCC->RCC_AHBENR &= ~(1<<21) )
+#define GPIOF_PCLK_DI() ( pRCC->RCC_AHBENR &= ~(1<<22) )
+#define GPIOG_PCLK_DI() ( pRCC->RCC_AHBENR &= ~(1<<23) )
 
 #define SYSCFG_PCLK_DI() ( RCC->RCC_APB2ENR &= ~(1<<0) )
 
