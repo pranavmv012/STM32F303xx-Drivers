@@ -29,4 +29,26 @@ typedef struct
 
 }GPIO_Handle_t;
 
+/*Creating APIs for the user application*/
+/*
+ * GPIO Initialization APIs
+ */
+void GPIO_Init(void);
+void GPIO_DeInit(void);
+void GPIO_PCLKControl(void);
+
+/*
+ * Read and write APIs
+ */
+void GPIO_ReadInputPin(void);
+void GPIO_ReadInputPort(void);
+void GPIO_WriteOutputPin(void);
+void GPIO_WriteOutputPort(void);
+/*
+ * IRQ APIs
+ */
+void GPIO_IRQConfig(void);
+void GPIO_IRQHandler(void);
+
+
 #endif /* INC_STM32F303XX_GPIO_DRV_H_ */
