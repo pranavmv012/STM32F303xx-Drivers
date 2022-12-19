@@ -88,7 +88,6 @@ int main(void)
  80001d4:	b480      	push	{r7}
  80001d6:	af00      	add	r7, sp, #0
     /* Loop forever */
-
 	for(;;);
  80001d8:	e7fe      	b.n	80001d8 <main+0x4>
 	...
