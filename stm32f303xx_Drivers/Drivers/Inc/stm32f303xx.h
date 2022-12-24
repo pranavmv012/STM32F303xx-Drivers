@@ -23,8 +23,8 @@
 #define DISABLE 	0
 #define SET 		ENABLE
 #define RESET 		DISABLE
-#define PINSET 		SET
-#define PINRESET 	RESET
+#define PIN_SET 	SET
+#define PIN_RESET 	RESET
 
 /*Base addresses of Memory banks*/
 #define FLASH_BASE_ADDR		0x08000000UL

@@ -218,76 +218,87 @@ void GPIO_DeInit(GPIO_Reg_Def_t *pGPIOx)
 	}
 }
 
-///*
-// * Read and write APIs
-// */
-///*
-// * ===  FUNCTION  ======================================================================
-// *   Name		:  GPIO_ReadInputPin
-// *   Description:  Function to read from input pin.
-// *   Inputs		:  Pointer to the base address of gpio port, pin number
-// * Output/return:  if the pin is high or low.
-// * =====================================================================================
-// */
-//uint8_t  GPIO_ReadInputPin(GPIO_Reg_Def_t *pGPIOx, uint8_t PinNum)
-//{
-//
-//	return 0;
-//}
-///*
-// * ===  FUNCTION  ======================================================================
-// *   Name		:  GPIO_Init
-// *   Description:  Function to Initialize GPIO
-// *   Inputs		:  Pointer to GPIO handle.
-// * Output/return:  None.
-// * =====================================================================================
-// */
-//uint16_t GPIO_ReadInputPort(GPIO_Reg_Def_t *pGPIOx)
-//{
-//
-//	return 0;
-//}
-//
-///*
-// * ===  FUNCTION  ======================================================================
-// *   Name		:  GPIO_Init
-// *   Description:  Function to Initialize GPIO
-// *   Inputs		:  Pointer to GPIO handle.
-// * Output/return:  None.
-// * =====================================================================================
-// */
-//void GPIO_WriteOutputPin(GPIO_Reg_Def_t *pGPIOx, uint8_t PinNum, uint8_t Val)
-//{
-//
-//}
-///*
-// * ===  FUNCTION  ======================================================================
-// *   Name		:  GPIO_Init
-// *   Description:  Function to Initialize GPIO
-// *   Inputs		:  Pointer to GPIO handle.
-// * Output/return:  None.
-// * =====================================================================================
-// */
-//void GPIO_WriteOutputPort(GPIO_Reg_Def_t *pGPIOx, uint16_t Val)
-//{
-//
-//}
-///*
-// * ===  FUNCTION  ======================================================================
-// *   Name		:  GPIO_Init
-// *   Description:  Function to Initialize GPIO
-// *   Inputs		:  Pointer to GPIO handle.
-// * Output/return:  None.
-// * =====================================================================================
-// */
-//void GPIO_ToggleOutPin(GPIO_Reg_Def_t *pGPIOx, uint8_t pinNum)
-//{
-//
-//}
-///*
-// * IRQ APIs
-// */
-///*
+/*
+ * Read and write APIs
+ */
+/*
+ * ===  FUNCTION  ======================================================================
+ *   Name		:  GPIO_ReadInputPin
+ *   Description:  Function to read from input pin.
+ *   Inputs		:  Pointer to the base address of gpio port, pin number
+ * Output/return:  if the pin is high or low. 0 or 1
+ * =====================================================================================
+ */
+uint8_t  GPIO_ReadInputPin(GPIO_Reg_Def_t *pGPIOx, uint8_t PinNum)
+{
+	uint8_t val;
+	val = (uint8_t) (pGPIOx->IDR >>PinNum) & 0x00000001;
+	return val;
+}
+/*
+ * ===  FUNCTION  ======================================================================
+ *   Name		:  GPIO_ReadInputPort
+ *   Description:  Read from a GPIO port
+ *   Inputs		:  Pointer to the base address of the port.
+ * Output/return:  16 bit value. Each bit represent the reading of corresponding pin .
+ * =====================================================================================
+ */
+uint16_t GPIO_ReadInputPort(GPIO_Reg_Def_t *pGPIOx)
+{
+	uint16_t Val;
+	Val = (uint16_t) (pGPIOx->IDR);
+	return Val;
+}
+
+/*
+ * ===  FUNCTION  ======================================================================
+ *   Name		:  GPIO_WriteOutputPin
+ *   Description:  Function to write a value ot the corresponding GPIO pin
+ *   Inputs		:  Pointer to the base address of the port, pin number and value to be
+ *   			   written
+ * Output/return:  None.
+ * =====================================================================================
+ */
+void GPIO_WriteOutputPin(GPIO_Reg_Def_t *pGPIOx, uint8_t PinNum, uint8_t Val)
+{
+	if(Val == PIN_SET)
+	{
+		(pGPIOx->ODR) |= (1 << PinNum);//set the corresponding bit field in the ODR register.
+	}
+	else
+	{
+		(pGPIOx->ODR) &= ~(1 << PinNum);//reset the corresponding bit field in the ODR register.
+	}
+}
+/*
+ * ===  FUNCTION  ======================================================================
+ *   Name		:  GPIO_WriteOutputPort
+ *   Description:  Function to write to the output port
+ *   Inputs		:  Pointer to the GPIO base address.
+ * Output/return:  None.
+ * =====================================================================================
+ */
+void GPIO_WriteOutputPort(GPIO_Reg_Def_t *pGPIOx, uint16_t Val)
+{
+	(pGPIOx->ODR) = Val;
+}
+
+/*
+ * ===  FUNCTION  ======================================================================
+ *   Name		:  GPIO_ToggleOutPin
+ *   Description:  Function to toggle a GPIO output pin.
+ *   Inputs		:  Pointer to GPIO port base address and pin number.
+ * Output/return:  None.
+ * =====================================================================================
+ */
+void GPIO_ToggleOutPin(GPIO_Reg_Def_t *pGPIOx, uint8_t pinNum)
+{
+	(pGPIOx->ODR) ^= (1 << pinNum);
+}
+/*
+ * IRQ APIs
+ */
+/*
 // * ===  FUNCTION  ======================================================================
 // *   Name		:  GPIO_Init
 // *   Description:  Function to Initialize GPIO
