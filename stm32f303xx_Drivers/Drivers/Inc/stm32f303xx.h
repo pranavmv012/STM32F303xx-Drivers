@@ -1,16 +1,30 @@
 /*
+ *=====================================================================================
+ *
  * Name				:stm32f303xx.h
- * Description:		:This device specification file supports GPIO, SPI, I2C and UART peripherals.
- 					 So the base addresses of the other peripheral on the buses are not declared in this
-					 file. Please add the base address if you want to use other peripherals than above mentioned
- *  Created on      :2022/12/12
- *  Author          :Pranav Vasudevan- pranavmv012@gmail.com
+ * Description:		:This device specification file supports GPIO, SPI, I2C and UART
+ * 					 peripherals.So the base addresses of the other peripheral on the
+ * 					 buses are not declared in this file. Please add the base address
+ * 					 if you want to use other peripherals than above mentioned.
+ * Created on       :2022/12/12
+ * Author           :Pranav Vasudevan- pranavmv012@gmail.com
+ *=====================================================================================
  */
 
 #ifndef INC_STM32F303XX_H_
 #define INC_STM32F303XX_H_
+
+
 #include <stdint.h>
 #define __vo	volatile
+
+/*some generic macros*/
+#define ENABLE 		1
+#define DISABLE 	0
+#define SET 		ENABLE
+#define RESET 		DISABLE
+#define PINSET 		SET
+#define PINRESET 	RESET
 
 /*Base addresses of Memory banks*/
 #define FLASH_BASE_ADDR		0x08000000UL
@@ -101,51 +115,19 @@ typedef struct
 }RCC_Reg_Def_t;
 
 /*pointer variable to access individual register of a peripheral */
-#define GPIOA	(GPIO_Reg_Def_t*) GPIOA_BASE_ADDR
-#define GPIOB	(GPIO_Reg_Def_t*) GPIOB_BASE_ADDR
-#define GPIOC	(GPIO_Reg_Def_t*) GPIOC_BASE_ADDR
-#define GPIOD	(GPIO_Reg_Def_t*) GPIOD_BASE_ADDR
-#define GPIOE	(GPIO_Reg_Def_t*) GPIOE_BASE_ADDR
-#define GPIOF	(GPIO_Reg_Def_t*) GPIOF_BASE_ADDR
-#define GPIOG	(GPIO_Reg_Def_t*) GPIOG_BASE_ADDR
-#define GPIOH	(GPIO_Reg_Def_t*) GPIOH_BASE_ADDR
+#define GPIOA	(GPIO_Reg_Def_t*)GPIOA_BASE_ADDR
+#define GPIOB	(GPIO_Reg_Def_t*)GPIOB_BASE_ADDR
+#define GPIOC	(GPIO_Reg_Def_t*)GPIOC_BASE_ADDR
+#define GPIOD	(GPIO_Reg_Def_t*)GPIOD_BASE_ADDR
+#define GPIOE	(GPIO_Reg_Def_t*)GPIOE_BASE_ADDR
+#define GPIOF	(GPIO_Reg_Def_t*)GPIOF_BASE_ADDR
+#define GPIOG	(GPIO_Reg_Def_t*)GPIOG_BASE_ADDR
+#define GPIOH	(GPIO_Reg_Def_t*)GPIOH_BASE_ADDR
 
-#define RCC (RCC_Reg_Def_t*) RCC_BASE_ADDR
+#define RCC (RCC_Reg_Def_t*)RCC_BASE_ADDR
 
-/*Use these pointer variable to access each register in a peripheral-GPIO*/
-GPIO_Reg_Def_t *pGPIOA = GPIOA;
-GPIO_Reg_Def_t *pGPIOB = GPIOB;
-GPIO_Reg_Def_t *pGPIOC = GPIOC;
-GPIO_Reg_Def_t *pGPIOD = GPIOD;
-GPIO_Reg_Def_t *pGPIOE = GPIOE;
-GPIO_Reg_Def_t *pGPIOF = GPIOF;
-GPIO_Reg_Def_t *pGPIOG = GPIOG;
-GPIO_Reg_Def_t *pGPIOH = GPIOH;
 
-/*Use these pointer variable to access each register in a peripheral-RCC*/
-RCC_Reg_Def_t *pRCC = RCC;
-/*Macros for enabling peripheral clock*/
 
-#define GPIOA_PCLK_EN() ( pRCC->RCC_AHBENR |= (1<<17) )
-#define GPIOB_PCLK_EN() ( pRCC->RCC_AHBENR |= (1<<18) )
-#define GPIOC_PCLK_EN() ( pRCC->RCC_AHBENR |= (1<<19) )
-#define GPIOD_PCLK_EN() ( pRCC->RCC_AHBENR |= (1<<20) )
-#define GPIOE_PCLK_EN() ( pRCC->RCC_AHBENR |= (1<<21) )
-#define GPIOF_PCLK_EN() ( pRCC->RCC_AHBENR |= (1<<22) )
-#define GPIOG_PCLK_EN() ( pRCC->RCC_AHBENR |= (1<<23) )
-/*sysconf clock */
-
-#define SYSCFG_PCLK_EN() ( RCC->RCC_APB2ENR |= (1<<0) )
-/*Macros for disabling peripheral clock*/
-#define GPIOA_PCLK_DI() ( pRCC->RCC_AHBENR &= ~(1<<17) )
-#define GPIOB_PCLK_DI() ( pRCC->RCC_AHBENR &= ~(1<<18) )
-#define GPIOC_PCLK_DI() ( pRCC->RCC_AHBENR &= ~(1<<19) )
-#define GPIOD_PCLK_DI() ( pRCC->RCC_AHBENR &= ~(1<<20) )
-#define GPIOE_PCLK_DI() ( pRCC->RCC_AHBENR &= ~(1<<21) )
-#define GPIOF_PCLK_DI() ( pRCC->RCC_AHBENR &= ~(1<<22) )
-#define GPIOG_PCLK_DI() ( pRCC->RCC_AHBENR &= ~(1<<23) )
-
-#define SYSCFG_PCLK_DI() ( RCC->RCC_APB2ENR &= ~(1<<0) )
 
 /**/
 

@@ -29,23 +29,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  12 .ARM.attributes 00000030  00000000  00000000  00010298  2**0
                   CONTENTS, READONLY
- 13 .debug_info   000002df  00000000  00000000  000102c8  2**0
+ 13 .debug_info   000000a8  00000000  00000000  000102c8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 000000d0  00000000  00000000  000105a7  2**0
+ 14 .debug_abbrev 0000005b  00000000  00000000  00010370  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00000048  00000000  00000000  00010678  2**3
+ 15 .debug_aranges 00000048  00000000  00000000  000103d0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_ranges 00000030  00000000  00000000  000106c0  2**3
+ 16 .debug_ranges 00000030  00000000  00000000  00010418  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  00000641  00000000  00000000  000106f0  2**0
+ 17 .debug_macro  00000085  00000000  00000000  00010448  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   00000469  00000000  00000000  00010d31  2**0
+ 18 .debug_line   00000483  00000000  00000000  000104cd  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    0000470f  00000000  00000000  0001119a  2**0
+ 19 .debug_str    00004644  00000000  00000000  00010950  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000053  00000000  00000000  000158a9  2**0
+ 20 .comment      00000053  00000000  00000000  00014f94  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  00000054  00000000  00000000  000158fc  2**2
+ 21 .debug_frame  00000054  00000000  00000000  00014fe8  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -87,7 +87,8 @@ int main(void)
 {
  80001d4:	b480      	push	{r7}
  80001d6:	af00      	add	r7, sp, #0
-    /* Loop forever */
+
+	/* Loop forever */
 	for(;;);
  80001d8:	e7fe      	b.n	80001d8 <main+0x4>
 	...

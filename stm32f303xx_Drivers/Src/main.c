@@ -15,13 +15,15 @@
  *
  ******************************************************************************
  */
-#include <stm32f303xx.h>
+#include "stm32f303xx.h"
+#include "stm32f303xx_gpio_drv.h"
 #include <stdint.h>
 
 
 
 int main(void)
 {
-    /* Loop forever */
+
+	/* Loop forever */
 	for(;;);
 }
