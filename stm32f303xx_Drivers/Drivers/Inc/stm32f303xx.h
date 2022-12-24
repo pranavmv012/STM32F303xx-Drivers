@@ -132,5 +132,5 @@ typedef struct
 /**/
 
 
-
+#include "stm32f303xx_gpio_drv.h"
 #endif /* INC_STM32F303XX_H_ */

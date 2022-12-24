@@ -11,14 +11,14 @@
 #include <stdio.h>
 #include <stdint.h>
 /*Use these pointer variable to access each register in a peripheral-GPIO*/
-//GPIO_Reg_Def_t *pGPIOA = GPIOA;
-//GPIO_Reg_Def_t *pGPIOB = GPIOB;
-//GPIO_Reg_Def_t *pGPIOC = GPIOC;
-//GPIO_Reg_Def_t *pGPIOD = GPIOD;
-//GPIO_Reg_Def_t *pGPIOE = GPIOE;
-//GPIO_Reg_Def_t *pGPIOF = GPIOF;
-//GPIO_Reg_Def_t *pGPIOG = GPIOG;
-//GPIO_Reg_Def_t *pGPIOH = GPIOH;
+GPIO_Reg_Def_t *pGPIOA = GPIOA;
+GPIO_Reg_Def_t *pGPIOB = GPIOB;
+GPIO_Reg_Def_t *pGPIOC = GPIOC;
+GPIO_Reg_Def_t *pGPIOD = GPIOD;
+GPIO_Reg_Def_t *pGPIOE = GPIOE;
+GPIO_Reg_Def_t *pGPIOF = GPIOF;
+GPIO_Reg_Def_t *pGPIOG = GPIOG;
+GPIO_Reg_Def_t *pGPIOH = GPIOH;
 
 /*Use these pointer variable to access each register in a peripheral-RCC*/
 RCC_Reg_Def_t *pRCC = RCC;
