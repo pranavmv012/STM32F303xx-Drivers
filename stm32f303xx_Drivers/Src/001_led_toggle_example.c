@@ -20,6 +20,7 @@ void delay()
 int main(void)
 {
 	GPIO_Handle_t GpioLed;
+	//handle init
 	GpioLed.pGPIOx = GPIOA;
 	GpioLed.GPIO_Pin_Config.GPIO_PinNum = GPIO_PIN_5;
 	GpioLed.GPIO_Pin_Config.GPIO_PinMode = GPIO_MODE_OUTPUT;
