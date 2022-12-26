@@ -151,7 +151,22 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 	else
 	{
 		//interrupt mode
+		if(pGPIOHandle->GPIO_Pin_Config.GPIO_PinMode == GPIO_MODE_IT_FET)
+		{
+		//configure the falling edge of interrupt on sysconfig cntr register. FTSR reg
 
+
+		}else if(pGPIOHandle->GPIO_Pin_Config.GPIO_PinMode == GPIO_MODE_IT_RET)
+		{
+		//configure the falling edge of interrupt on sysconfig cntr register. RTSR reg
+
+		}else if(pGPIOHandle->GPIO_Pin_Config.GPIO_PinMode == GPIO_MODE_IT_FRET)
+		{
+		//configure the falling edge of interrupt on sysconfig cntr register. FTSR and RTSR reg
+
+		}
+		//Enable the port selection in sysconfig exticr
+		//Enable the interrupt delivery to the processor by setting exti IMR register.
 	}
 	temp = 0;
 //configure the speed
@@ -299,26 +314,26 @@ void GPIO_ToggleOutPin(GPIO_Reg_Def_t *pGPIOx, uint8_t pinNum)
  * IRQ APIs
  */
 /*
-// * ===  FUNCTION  ======================================================================
-// *   Name		:  GPIO_Init
-// *   Description:  Function to Initialize GPIO
-// *   Inputs		:  Pointer to GPIO handle.
-// * Output/return:  None.
-// * =====================================================================================
-// */
-//void GPIO_IRQConfig(uint8_t IRQNum, uint8_t IRQPriority, uint8_t ENorDI)
-//{
-//
-//}
-///*
-// * ===  FUNCTION  ======================================================================
-// *   Name		:  GPIO_Init
-// *   Description:  Function to Initialize GPIO
-// *   Inputs		:  Pointer to GPIO handle.
-// * Output/return:  None.
-// * =====================================================================================
-// */
-//void GPIO_IRQHandler(uint8_t PinNum)
-//{
-//
-//}
+ * ===  FUNCTION  ======================================================================
+ *   Name		:  GPIO_IRQConfig
+ *   Description:  Function to configure the gpio interrupt.
+ *   Inputs		:  IRQ number, priority and Enable/disable
+ * Output/return:  None.
+ * =====================================================================================
+ */
+void GPIO_IRQConfig(uint8_t IRQNum, uint8_t IRQPriority, uint8_t ENorDI)
+{
+
+}
+/*
+ * ===  FUNCTION  ======================================================================
+ *   Name		:  GPIO_IRQHandler
+ *   Description:  Function to handle interrupt.
+ *   Inputs		:  Pin number at which interrupt triggers.
+ * Output/return:  None.
+ * =====================================================================================
+ */
+void GPIO_IRQHandler(uint8_t PinNum)
+{
+
+}

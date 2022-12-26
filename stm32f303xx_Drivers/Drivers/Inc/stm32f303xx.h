@@ -114,6 +114,18 @@ typedef struct
  __vo uint32_t RCC_CFGR3;
 }RCC_Reg_Def_t;
 
+typedef struct
+
+{
+__vo uint32_t EXTI_IMR1; //from rm 303/1141
+__vo uint32_t EXTI_EMR1;
+__vo uint32_t EXTI_RTSR1;
+__vo uint32_t EXTI_FTSR1;
+__vo uint32_t EXTI_SWIER1;
+__vo uint32_t EXTI_PR1;
+
+}EXT_Reg_Def_t;
+
 /*pointer variable to access individual register of a peripheral */
 #define GPIOA	(GPIO_Reg_Def_t*)GPIOA_BASE_ADDR
 #define GPIOB	(GPIO_Reg_Def_t*)GPIOB_BASE_ADDR
@@ -126,6 +138,8 @@ typedef struct
 
 #define RCC (RCC_Reg_Def_t*)RCC_BASE_ADDR
 
+
+#define EXTI (EXTI_Reg_Def_t*)EXTI_BASE_ADDR
 
 
 
