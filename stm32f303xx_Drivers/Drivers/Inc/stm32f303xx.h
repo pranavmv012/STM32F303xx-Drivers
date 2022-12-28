@@ -212,5 +212,5 @@ __vo uint32_t SYSCFG_EXTICR[4];
 								  (x == GPIOG) ? 6 : \
 								  (x == GPIOH) ? 7 : 0)
 
-
+#include "stm32f303xx_gpio_drv.h"
 #endif /* INC_STM32F303XX_H_ */
