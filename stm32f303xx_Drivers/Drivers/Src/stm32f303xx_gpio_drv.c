@@ -327,6 +327,8 @@ void GPIO_ToggleOutPin(GPIO_Reg_Def_t *pGPIOx, uint8_t pinNum)
 }
 /*
  * IRQ APIs
+ * There APIs are done on the processor side. Peripheral side of the interrupts are
+ * implemented on GPIO_Init function (interrupt mode portion)
  */
 /*
  * ===  FUNCTION  ======================================================================
@@ -336,9 +338,52 @@ void GPIO_ToggleOutPin(GPIO_Reg_Def_t *pGPIOx, uint8_t pinNum)
  * Output/return:  None.
  * =====================================================================================
  */
-void GPIO_IRQConfig(uint8_t IRQNum, uint8_t IRQPriority, uint8_t ENorDI)
+void GPIO_IRQConfig(uint8_t IRQNum, uint8_t ENorDI)
 {
 
+	if( ENorDI == ENABLE)
+	{
+		if(IRQNum <= 31)
+		{
+			*NVIC_ISER0 |= (1 << IRQNum);
+		}else if(IRQNum >31 && IRQNum < 64)
+		{
+			*NVIC_ISER1 |= (1 << (IRQNum % 32));
+		}else if (IRQNum >63 && IRQNum < 96)
+		{
+			*NVIC_ISER2 |= (1 << (IRQNum % 64));
+		}
+	}
+	else
+	{
+		if(IRQNum <= 31)
+		{
+			*NVIC_ICER0 |= (1 << IRQNum);
+		}else if(IRQNum >31 && IRQNum < 64)
+		{
+			*NVIC_ICER1 |= (1 << (IRQNum % 32));
+		}else if (IRQNum >63 && IRQNum < 96)
+		{
+			*NVIC_ICER2 |= (1 << (IRQNum % 64));
+		}
+	}
+}
+
+/*
+ * ===  FUNCTION  ======================================================================
+ *   Name		:  GPIO_IRQ_PriorityConfig
+ *   Description:  Function to set the priority fo the interrupt.
+ *   			   Refer 4.2.7 of ARM DUI 0553B
+ *   Inputs		:  Pin number at which interrupt triggers.
+ * Output/return:  None.
+ * =====================================================================================
+ */
+void GPIO_IRQ_PriorityConfig(uint8_t IRQNum, uint8_t IRQPriority)
+{
+	uint8_t ipr = IRQNum / 4;
+	uint8_t ipr_sec = IRQNum % 4;
+	uint8_t shift = (8 * ipr_sec) + (8 - NO_PR_BIT_IMPLEMENTED);
+	*(NVIC_IPR_BASE_ADDR + (4 * ipr)) |= (IRQPriority << shift);
 }
 /*
  * ===  FUNCTION  ======================================================================
@@ -351,4 +396,10 @@ void GPIO_IRQConfig(uint8_t IRQNum, uint8_t IRQPriority, uint8_t ENorDI)
 void GPIO_IRQHandler(uint8_t PinNum)
 {
 
+	//clear the exti pr regtister.
+	if(pEXTI->EXTI_PR1 & (1 << PinNum))
+	{
+		//clear the pin by setting the corresponding bit for the pin.
+		pEXTI->EXTI_PR1 |= (1 << PinNum);
+	}
 }

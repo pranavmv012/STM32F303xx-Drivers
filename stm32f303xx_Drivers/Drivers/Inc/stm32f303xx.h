@@ -18,7 +18,39 @@
 #include <stdint.h>
 #define __vo	volatile
 
-/*some generic macros*/
+/*=====================================================================================
+ * Processor side register macros - ARM cortex M4
+ *
+ * Refer the cortex M4 device generic user guide
+ *=====================================================================================*/
+
+/*NVIC marcos*/
+/*Interrupt Set-enable Registers base address - ARM DUI 0553B 4-3
+ * 81 IRQ number for the mcu. so needed only 3 ISER register. Declaring those regs only.
+ */
+#define NVIC_ISER0 	((__vo uint32_t*)0xE000E100)
+#define NVIC_ISER1 	((__vo uint32_t*)0xE000E104)
+#define NVIC_ISER2 	((__vo uint32_t*)0xE000E108)
+
+/*Interrupt Clear-enable Registers*/
+
+#define NVIC_ICER0 	((__vo uint32_t*)0XE000E180)
+#define NVIC_ICER1 	((__vo uint32_t*)0xE000E184)
+#define NVIC_ICER2 	((__vo uint32_t*)0xE000E188)
+
+/*Interrupt priority setting resgister*/
+
+#define NVIC_IPR_BASE_ADDR		((__vo uint32_t*)0xE000E400)
+
+/*no of priority bits implemented. the lower 4 bits in the 8 bit priority bit field
+ * is reserved.
+ */
+#define NO_PR_BIT_IMPLEMENTED	4
+/*=====================================================================================
+ * Peripheral side register macros - STM32F303RE
+ *
+ * Refer reference manual
+ *=====================================================================================*/
 #define ENABLE 		1
 #define DISABLE 	0
 #define SET 		ENABLE
@@ -26,6 +58,11 @@
 #define PIN_SET 	SET
 #define PIN_RESET 	RESET
 
+/*=====================================================================================
+ * Peripheral side register macros - STM32F303RE
+ *
+ * Refer reference manual
+ *=====================================================================================*/
 /*Base addresses of Memory banks*/
 #define FLASH_BASE_ADDR		0x08000000UL
 #define SRAM1_BASE_ADDR		0x20000000UL
@@ -74,6 +111,17 @@
 #define UART4_BASE_ADDR		(APB1_PER_BASE_ADDR + 0x4C00UL)
 #define UART5_BASE_ADDR		(APB1_PER_BASE_ADDR + 0x5000UL)
 
+/*
+ * IRQ number for EXTI line - specific to stm32f303RE
+ * Refer the NVIC vector table: RM 289/1141
+ */
+#define IRQ_NUM_EXTI0 		6
+#define IRQ_NUM_EXTI1 		7
+#define IRQ_NUM_EXTI2_TS 	8
+#define IRQ_NUM_EXTI3 		9
+#define IRQ_NUM_EXTI4 		10
+#define IRQ_NUM_EXTI9_5 	23
+#define IRQ_NUM_EXTI15_10	40
 /*Structures for peripheral registers -GPIO*/
 
 typedef struct
@@ -153,7 +201,7 @@ __vo uint32_t SYSCFG_EXTICR[4];
 
 /*
  * macro to get the port code. The base address of the peripheral is given to
- * the function and it generates correspoing port code.
+ * the function and it generates corresponding port code.
  */
 #define GET_PORT_CODE(x)	     ((x == GPIOA) ? 0 : \
 								  (x == GPIOB) ? 1 : \

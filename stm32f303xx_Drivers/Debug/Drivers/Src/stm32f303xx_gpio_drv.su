@@ -6,5 +6,6 @@ stm32f303xx_gpio_drv.c:276:10:GPIO_ReadInputPort	24	static
 stm32f303xx_gpio_drv.c:292:6:GPIO_WriteOutputPin	16	static
 stm32f303xx_gpio_drv.c:311:6:GPIO_WriteOutputPort	16	static
 stm32f303xx_gpio_drv.c:324:6:GPIO_ToggleOutPin	16	static
-stm32f303xx_gpio_drv.c:339:6:GPIO_IRQConfig	16	static
-stm32f303xx_gpio_drv.c:351:6:GPIO_IRQHandler	16	static
+stm32f303xx_gpio_drv.c:341:6:GPIO_IRQConfig	16	static
+stm32f303xx_gpio_drv.c:381:6:GPIO_IRQ_PriorityConfig	24	static
+stm32f303xx_gpio_drv.c:396:6:GPIO_IRQHandler	16	static
