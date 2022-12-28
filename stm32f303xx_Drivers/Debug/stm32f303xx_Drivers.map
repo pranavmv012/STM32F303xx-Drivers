@@ -65,10 +65,12 @@ Discarded input sections
  .data          0x0000000000000000        0x0 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .bss           0x0000000000000000        0x0 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .data.pRCC     0x0000000000000000        0x4 ./Drivers/Src/stm32f303xx_gpio_drv.o
+ .data.pEXTI    0x0000000000000000        0x4 ./Drivers/Src/stm32f303xx_gpio_drv.o
+ .data.pSYSCFG  0x0000000000000000        0x4 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .text.GPIO_PCLKControl
                 0x0000000000000000      0x1dc ./Drivers/Src/stm32f303xx_gpio_drv.o
  .text.GPIO_Init
-                0x0000000000000000      0x1ac ./Drivers/Src/stm32f303xx_gpio_drv.o
+                0x0000000000000000      0x348 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .text.GPIO_DeInit
                 0x0000000000000000      0x184 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .text.GPIO_ReadInputPin
@@ -85,8 +87,8 @@ Discarded input sections
                 0x0000000000000000       0x1e ./Drivers/Src/stm32f303xx_gpio_drv.o
  .text.GPIO_IRQHandler
                 0x0000000000000000       0x16 ./Drivers/Src/stm32f303xx_gpio_drv.o
- .debug_info    0x0000000000000000      0xdea ./Drivers/Src/stm32f303xx_gpio_drv.o
- .debug_abbrev  0x0000000000000000      0x27e ./Drivers/Src/stm32f303xx_gpio_drv.o
+ .debug_info    0x0000000000000000      0xf0f ./Drivers/Src/stm32f303xx_gpio_drv.o
+ .debug_abbrev  0x0000000000000000      0x25a ./Drivers/Src/stm32f303xx_gpio_drv.o
  .debug_aranges
                 0x0000000000000000       0x68 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .debug_ranges  0x0000000000000000       0x58 ./Drivers/Src/stm32f303xx_gpio_drv.o
@@ -98,7 +100,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x103 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .debug_macro   0x0000000000000000       0x6a ./Drivers/Src/stm32f303xx_gpio_drv.o
  .debug_macro   0x0000000000000000      0x1df ./Drivers/Src/stm32f303xx_gpio_drv.o
- .debug_macro   0x0000000000000000      0x146 ./Drivers/Src/stm32f303xx_gpio_drv.o
+ .debug_macro   0x0000000000000000      0x156 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .debug_macro   0x0000000000000000      0x11e ./Drivers/Src/stm32f303xx_gpio_drv.o
  .debug_macro   0x0000000000000000       0x52 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .debug_macro   0x0000000000000000       0x18 ./Drivers/Src/stm32f303xx_gpio_drv.o
@@ -128,8 +130,8 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x3d ./Drivers/Src/stm32f303xx_gpio_drv.o
  .debug_macro   0x0000000000000000       0x16 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .debug_macro   0x0000000000000000      0x145 ./Drivers/Src/stm32f303xx_gpio_drv.o
- .debug_line    0x0000000000000000      0x944 ./Drivers/Src/stm32f303xx_gpio_drv.o
- .debug_str     0x0000000000000000     0x94e0 ./Drivers/Src/stm32f303xx_gpio_drv.o
+ .debug_line    0x0000000000000000      0xa78 ./Drivers/Src/stm32f303xx_gpio_drv.o
+ .debug_str     0x0000000000000000     0x9654 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .comment       0x0000000000000000       0x54 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .debug_frame   0x0000000000000000      0x1a0 ./Drivers/Src/stm32f303xx_gpio_drv.o
  .ARM.attributes
@@ -153,7 +155,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x103 ./Src/main.o
  .debug_macro   0x0000000000000000       0x6a ./Src/main.o
  .debug_macro   0x0000000000000000      0x1df ./Src/main.o
- .debug_macro   0x0000000000000000      0x146 ./Src/main.o
+ .debug_macro   0x0000000000000000      0x156 ./Src/main.o
  .debug_macro   0x0000000000000000      0x11e ./Src/main.o
  .group         0x0000000000000000        0xc ./Src/syscalls.o
  .group         0x0000000000000000        0xc ./Src/syscalls.o
@@ -715,10 +717,10 @@ LOAD c:/st/stm32cubeide_1.8.0/stm32cubeide/plugins/com.st.stm32cube.ide.mcu.exte
  .debug_line    0x0000000000000000      0x3ff ./Src/main.o
  .debug_line    0x00000000000003ff       0x84 ./Startup/startup_stm32f303retx.o
 
-.debug_str      0x0000000000000000     0x466b
- .debug_str     0x0000000000000000     0x463a ./Src/main.o
-                                       0x4795 (size before relaxing)
- .debug_str     0x000000000000463a       0x31 ./Startup/startup_stm32f303retx.o
+.debug_str      0x0000000000000000     0x4743
+ .debug_str     0x0000000000000000     0x4712 ./Src/main.o
+                                       0x486d (size before relaxing)
+ .debug_str     0x0000000000004712       0x31 ./Startup/startup_stm32f303retx.o
                                          0x7a (size before relaxing)
 
 .comment        0x0000000000000000       0x53

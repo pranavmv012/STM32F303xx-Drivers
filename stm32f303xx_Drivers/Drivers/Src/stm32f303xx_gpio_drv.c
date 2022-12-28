@@ -22,6 +22,8 @@
 
 /*Use these pointer variable to access each register in a peripheral-RCC*/
 RCC_Reg_Def_t *pRCC = RCC;
+EXTI_Reg_Def_t *pEXTI = EXTI;
+SYSCFG_Reg_Def_t *pSYSCFG = SYSCFG;
 /*Macros for enabling peripheral clock*/
 
 #define GPIOA_PCLK_EN() ( pRCC->RCC_AHBENR |= (1 << 17) )
@@ -153,20 +155,33 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 		//interrupt mode
 		if(pGPIOHandle->GPIO_Pin_Config.GPIO_PinMode == GPIO_MODE_IT_FET)
 		{
-		//configure the falling edge of interrupt on sysconfig cntr register. FTSR reg
-
+		//configure the falling edge of interrupt on extiregister. FTSR reg
+			pEXTI->EXTI_FTSR1 |= (1 << pGPIOHandle->GPIO_Pin_Config.GPIO_PinNum);
+			//clear corresponding rtsr reg
+			pEXTI->EXTI_RTSR1 &= ~(1 << pGPIOHandle->GPIO_Pin_Config.GPIO_PinNum);
 
 		}else if(pGPIOHandle->GPIO_Pin_Config.GPIO_PinMode == GPIO_MODE_IT_RET)
 		{
-		//configure the falling edge of interrupt on sysconfig cntr register. RTSR reg
+		//configure the falling edge of interrupt on exti reg. RTSR reg
+			pEXTI->EXTI_RTSR1 |= (1 << pGPIOHandle->GPIO_Pin_Config.GPIO_PinNum);
+			//clear corresponding rtsr reg
+			pEXTI->EXTI_FTSR1 &= ~(1 << pGPIOHandle->GPIO_Pin_Config.GPIO_PinNum);
 
 		}else if(pGPIOHandle->GPIO_Pin_Config.GPIO_PinMode == GPIO_MODE_IT_FRET)
 		{
-		//configure the falling edge of interrupt on sysconfig cntr register. FTSR and RTSR reg
-
+		//configure the falling edge of interrupt on exti register. FTSR and RTSR reg
+			pEXTI->EXTI_RTSR1 |= (1 << pGPIOHandle->GPIO_Pin_Config.GPIO_PinNum);
+			pEXTI->EXTI_FTSR1 |= (1 << pGPIOHandle->GPIO_Pin_Config.GPIO_PinNum);
 		}
-		//Enable the port selection in sysconfig exticr
+		//Enable the port selection in sysconfig exticr: 4 exti regs. and each pin/exti is 4bit wide.
+
+		uint8_t temp1 = (pGPIOHandle->GPIO_Pin_Config.GPIO_PinNum) / 4;
+		uint8_t temp2 = (pGPIOHandle->GPIO_Pin_Config.GPIO_PinNum) % 4;
+		uint8_t portCode = GET_PORT_CODE(pGPIOHandle->pGPIOx);
+		pSYSCFG->SYSCFG_EXTICR[temp1] |= (portCode << (4 * temp2));
+
 		//Enable the interrupt delivery to the processor by setting exti IMR register.
+		pEXTI->EXTI_IMR1 |= (1 << pGPIOHandle->GPIO_Pin_Config.GPIO_PinNum);
 	}
 	temp = 0;
 //configure the speed

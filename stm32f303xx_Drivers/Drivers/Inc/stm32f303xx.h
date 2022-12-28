@@ -74,11 +74,6 @@
 #define UART4_BASE_ADDR		(APB1_PER_BASE_ADDR + 0x4C00UL)
 #define UART5_BASE_ADDR		(APB1_PER_BASE_ADDR + 0x5000UL)
 
-/*EXTI*/
-#define EXTI_BASE_ADDR		(APB2_PER_BASE_ADDR + 0x0400UL)
-#define SYSCFG_BASE_ADDR	(APB2_PER_BASE_ADDR + 0x0000UL)
-
-
 /*Structures for peripheral registers -GPIO*/
 
 typedef struct
@@ -123,8 +118,16 @@ __vo uint32_t EXTI_RTSR1;
 __vo uint32_t EXTI_FTSR1;
 __vo uint32_t EXTI_SWIER1;
 __vo uint32_t EXTI_PR1;
+}EXTI_Reg_Def_t;
 
-}EXT_Reg_Def_t;
+typedef struct
+{
+__vo uint32_t SYSCFG_CFGR1;
+__vo uint32_t SYSCFG_RCR;
+__vo uint32_t SYSCFG_EXTICR[4];
+//rest are not included in this app. if you want please add it from RM 261/1141
+
+}SYSCFG_Reg_Def_t;
 
 /*pointer variable to access individual register of a peripheral */
 #define GPIOA	(GPIO_Reg_Def_t*)GPIOA_BASE_ADDR
@@ -141,10 +144,25 @@ __vo uint32_t EXTI_PR1;
 
 #define EXTI (EXTI_Reg_Def_t*)EXTI_BASE_ADDR
 
-
+#define SYSCFG (SYSCFG_Reg_Def_t*)SYSCFG_BASE_ADDR
 
 /**/
+/*EXTI*/
+#define EXTI_BASE_ADDR		(APB2_PER_BASE_ADDR + 0x0400UL)
+#define SYSCFG_BASE_ADDR	(APB2_PER_BASE_ADDR + 0x0000UL)
 
+/*
+ * macro to get the port code. The base address of the peripheral is given to
+ * the function and it generates correspoing port code.
+ */
+#define GET_PORT_CODE(x)	     ((x == GPIOA) ? 0 : \
+								  (x == GPIOB) ? 1 : \
+								  (x == GPIOC) ? 2 : \
+								  (x == GPIOD) ? 3 : \
+								  (x == GPIOE) ? 4 : \
+								  (x == GPIOF) ? 5 : \
+								  (x == GPIOG) ? 6 : \
+								  (x == GPIOH) ? 7 : 0)
 
 
 #endif /* INC_STM32F303XX_H_ */
