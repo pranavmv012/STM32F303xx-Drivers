@@ -378,12 +378,12 @@ void GPIO_IRQConfig(uint8_t IRQNum, uint8_t ENorDI)
  * Output/return:  None.
  * =====================================================================================
  */
-void GPIO_IRQ_PriorityConfig(uint8_t IRQNum, uint8_t IRQPriority)
+void GPIO_IRQ_PriorityConfig(uint8_t IRQNum, uint32_t IRQPriority)
 {
 	uint8_t ipr = IRQNum / 4;
 	uint8_t ipr_sec = IRQNum % 4;
 	uint8_t shift = (8 * ipr_sec) + (8 - NO_PR_BIT_IMPLEMENTED);
-	*(NVIC_IPR_BASE_ADDR + (4 * ipr)) |= (IRQPriority << shift);
+	*(NVIC_IPR_BASE_ADDR + ipr) |= (IRQPriority << shift);
 }
 /*
  * ===  FUNCTION  ======================================================================

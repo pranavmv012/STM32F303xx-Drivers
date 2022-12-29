@@ -132,7 +132,7 @@ void GPIO_ToggleOutPin(GPIO_Reg_Def_t *pGPIOx, uint8_t pinNum);
  * IRQ APIs
  */
 void GPIO_IRQConfig(uint8_t IRQNum, uint8_t ENorDI);
-void GPIO_IRQ_PriorityConfig(uint8_t IRQNum, uint8_t IRQPriority);
+void GPIO_IRQ_PriorityConfig(uint8_t IRQNum, uint32_t IRQPriority);
 void GPIO_IRQHandler(uint8_t PinNum);
 
 
