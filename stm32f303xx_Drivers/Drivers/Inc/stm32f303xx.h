@@ -122,6 +122,26 @@
 #define IRQ_NUM_EXTI4 		10
 #define IRQ_NUM_EXTI9_5 	23
 #define IRQ_NUM_EXTI15_10	40
+
+
+/*NVIC IRQ priority*/
+#define NVIC_IRQ_PRIO0		0
+#define NVIC_IRQ_PRIO1		1
+#define NVIC_IRQ_PRIO2		2
+#define NVIC_IRQ_PRIO3		3
+#define NVIC_IRQ_PRIO4		4
+#define NVIC_IRQ_PRIO5		5
+#define NVIC_IRQ_PRIO6		6
+#define NVIC_IRQ_PRIO7		7
+#define NVIC_IRQ_PRIO8		8
+#define NVIC_IRQ_PRIO9		9
+#define NVIC_IRQ_PRIO10		10
+#define NVIC_IRQ_PRIO11		11
+#define NVIC_IRQ_PRIO12		12
+#define NVIC_IRQ_PRIO13		13
+#define NVIC_IRQ_PRIO14		14
+#define NVIC_IRQ_PRIO15		15
+
 /*Structures for peripheral registers -GPIO*/
 
 typedef struct
