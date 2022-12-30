@@ -142,7 +142,7 @@
 #define NVIC_IRQ_PRIO14		14
 #define NVIC_IRQ_PRIO15		15
 
-/*Structures for peripheral registers -GPIO*/
+/*Structures for peripheral registers -GPIO */
 
 typedef struct
 {
@@ -158,7 +158,22 @@ typedef struct
  __vo uint32_t BRR;
 }GPIO_Reg_Def_t;
 
-/*Structures for peripheral registers RCC*/
+/*Structures for peripheral registers SPI */
+
+typedef struct
+{
+__vo uint32_t CR1;
+__vo uint32_t CR2;
+__vo uint32_t SR;
+__vo uint32_t DR;
+__vo uint32_t CRCPR;
+__vo uint32_t RXCRCR;
+__vo uint32_t TXCRCR;
+__vo uint32_t I2SCFGR;
+__vo uint32_t I2SPR;
+}SPI_Reg_Def_t;
+
+/*Structures for peripheral registers RCC */
 
 typedef struct
 {
@@ -211,6 +226,15 @@ __vo uint32_t SYSCFG_EXTICR[4];
 #define GPIOG	(GPIO_Reg_Def_t*)GPIOG_BASE_ADDR
 #define GPIOH	(GPIO_Reg_Def_t*)GPIOH_BASE_ADDR
 
+
+/*Peripheral definitions for SPIs*/
+#define SPI1 (SPI_Reg_Def_t*)SPI1_BASE_ADDR
+#define SPI2 (SPI_Reg_Def_t*)SPI2_BASE_ADDR
+#define SPI3 (SPI_Reg_Def_t*)SPI3_BASE_ADDR
+#define SPI4 (SPI_Reg_Def_t*)SPI4_BASE_ADDR
+
+
+/*Peripheral definitions for RCC*/
 #define RCC (RCC_Reg_Def_t*)RCC_BASE_ADDR
 
 
@@ -236,5 +260,18 @@ __vo uint32_t SYSCFG_EXTICR[4];
 								  (x == GPIOG) ? 6 : \
 								  (x == GPIOH) ? 7 : 0)
 
+/*SPI clock enable and disable macros */
+#define SPI1_PCLK_EN() (RCC->RCC_APB2ENR |= (1 << 12) )
+#define SPI2_PCLK_EN() (RCC->RCC_APB1ENR |= (1 << 14) )
+#define SPI3_PCLK_EN() (RCC->RCC_APB1ENR |= (1 << 15) )
+#define SPI4_PCLK_EN() (RCC->RCC_APB2ENR |= (1 << 15) )
+
+#define SPI1_PCLK_DI() (RCC->RCC_APB2ENR &= ~(1 << 12) )
+#define SPI2_PCLK_DI() (RCC->RCC_APB1ENR &= ~(1 << 14) )
+#define SPI3_PCLK_DI() (RCC->RCC_APB1ENR &= ~(1 << 15) )
+#define SPI4_PCLK_DI() (RCC->RCC_APB2ENR &= ~(1 << 15) )
+
+
+#include "stm32f303xx_spi_drv.h"
 #include "stm32f303xx_gpio_drv.h"
 #endif /* INC_STM32F303XX_H_ */
