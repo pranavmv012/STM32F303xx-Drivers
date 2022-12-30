@@ -158,7 +158,7 @@ typedef struct
  __vo uint32_t BRR;
 }GPIO_Reg_Def_t;
 
-/*Structures for peripheral registers -GPIO*/
+/*Structures for peripheral registers RCC*/
 
 typedef struct
 {
@@ -177,6 +177,8 @@ typedef struct
  __vo uint32_t RCC_CFGR3;
 }RCC_Reg_Def_t;
 
+/*Structures for peripheral registers EXTI*/
+
 typedef struct
 
 {
@@ -187,6 +189,8 @@ __vo uint32_t EXTI_FTSR1;
 __vo uint32_t EXTI_SWIER1;
 __vo uint32_t EXTI_PR1;
 }EXTI_Reg_Def_t;
+
+/*Structures for peripheral registers Syscfg*/
 
 typedef struct
 {
