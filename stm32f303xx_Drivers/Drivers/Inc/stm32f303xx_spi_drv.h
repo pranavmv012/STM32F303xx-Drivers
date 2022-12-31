@@ -34,4 +34,31 @@ typedef struct
 	SPI_Config_t SPIConfig;
 }SPI_Handle_t;
 
+/*Function prototypes for the apis supported by this spi driver.*/
+
+/*
+ * Peripheral clock setup.
+ */
+void SPI_PCLKControl(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI);
+
+
+/*
+ * Init and deinit.
+ */
+void SPI_Init(SPI_Handle_t *pSPIHandle);
+void SPI_DeInit(SPI_Reg_Def_t *pSPIx);
+
+/*
+ * Data send and receive.
+ */
+void SPI_SendData(SPI_Reg_Def_t *pSPIx, uint8_t *pTxbuffer, uint32_t Len);
+void SPI_ReceiveData(SPI_Reg_Def_t *pSPIx, uint8_t *pRxbuffer, uint32_t Len);
+/*
+ * Irq config and irq handling..
+ */
+void SPI_IRQConfig(uint8_t IRQNum, uint8_t ENorDI);
+void SPI_IRQ_PriorityConfig(uint8_t IRQNum, uint32_t IRQPriority);
+void SPI_IRQHandler(SPI_Handle_t *pSPIHandle);
+
+
 #endif /* INC_STM32F303XX_SPI_DRV_H_ */
