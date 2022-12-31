@@ -7,8 +7,28 @@
  * Author           :Pranav Vasudevan- pranavmv012@gmail.com
  *=====================================================================================
  */
-#include "stm32f303xx_spi_drv.h"
 
+#include "stm32f303xx_spi_drv.h"
+/*
+ * Clock enable and disable macros.
+ */
+RCC_Reg_Def_t *psRCC = RCC;
+#define SPI1_PCLK_EN() (psRCC->RCC_APB2ENR |= (1 << 12) )
+#define SPI2_PCLK_EN() (psRCC->RCC_APB1ENR |= (1 << 14) )
+#define SPI3_PCLK_EN() (psRCC->RCC_APB1ENR |= (1 << 15) )
+#define SPI4_PCLK_EN() (psRCC->RCC_APB2ENR |= (1 << 15) )
+
+#define SPI1_PCLK_DI() (psRCC->RCC_APB2ENR &= ~(1 << 12) )
+#define SPI2_PCLK_DI() (psRCC->RCC_APB1ENR &= ~(1 << 14) )
+#define SPI3_PCLK_DI() (psRCC->RCC_APB1ENR &= ~(1 << 15) )
+#define SPI4_PCLK_DI() (psRCC->RCC_APB2ENR &= ~(1 << 15) )
+/*
+ * spi reset macros
+ */
+#define SPI1_REG_RESET() 	do{(psRCC->RCC_APB2RSTR |= (1 << 12));	(psRCC->RCC_APB2RSTR &= ~(1 << 12));} while(0)
+#define SPI2_REG_RESET() 	do{(psRCC->RCC_APB1RSTR |= (1 << 14));	(psRCC->RCC_APB1RSTR &= ~(1 << 14));} while(0)
+#define SPI3_REG_RESET() 	do{(psRCC->RCC_APB1RSTR |= (1 << 15));	(psRCC->RCC_APB1RSTR &= ~(1 << 15));} while(0)
+#define SPI4_REG_RESET() 	do{(psRCC->RCC_APB2RSTR |= (1 << 15));	(psRCC->RCC_APB2RSTR &= ~(1 << 25));} while(0)
 /*
  * ===  FUNCTION  ======================================================================
  *   Name		:  SPI_PCLKControl
@@ -17,8 +37,43 @@
  * Output/return:  None.
  * =====================================================================================
  */
-void SPI_PCLKControl(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI);
+void SPI_PCLKControl(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI)
+{
+	 if(ENorDI == ENABLE)
+	  {
+		 if(pSPIx == SPI1)
+		 {
+			SPI1_PCLK_EN();
+		 }else if(pSPIx == SPI2)
+		 {
+			 SPI2_PCLK_EN();
 
+		 }else if(pSPIx == SPI3)
+		 {
+			 SPI3_PCLK_EN();
+		 } else if(pSPIx == SPI4)
+		 {
+			 SPI4_PCLK_EN();
+		 }
+	   }
+	 else
+	 {
+		 if(pSPIx == SPI1)
+		 {
+			SPI1_PCLK_DI();
+		 }else if(pSPIx == SPI2)
+		 {
+			 SPI2_PCLK_DI();
+
+		 }else if(pSPIx == SPI3)
+		 {
+			 SPI3_PCLK_DI();
+		 } else if(pSPIx == SPI4)
+		 {
+			 SPI4_PCLK_DI();
+		 }
+	 }
+}
 /*
  * ===  FUNCTION  ======================================================================
  *   Name		:  SPI_Init
@@ -36,7 +91,22 @@ void SPI_Init(SPI_Handle_t *pSPIHandle);
  * Output/return:  None.
  * =====================================================================================
  */
-void SPI_DeInit(SPI_Reg_Def_t *pSPIx);
+void SPI_DeInit(SPI_Reg_Def_t *pSPIx)
+{
+	if(pSPIx == SPI1)
+	{
+		SPI1_REG_RESET();
+	}else if(pSPIx == SPI2)
+	{
+		SPI2_REG_RESET();
+	}else if(pSPIx == SPI3)
+	{
+		SPI3_REG_RESET();
+	} else if(pSPIx == SPI4)
+	{
+		SPI4_REG_RESET();
+	}
+}
 /*
  * ===  FUNCTION  ======================================================================
  *   Name		:  SPI_SendData

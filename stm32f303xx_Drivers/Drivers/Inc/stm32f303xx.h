@@ -181,7 +181,7 @@ typedef struct
  __vo uint32_t RCC_CFGR;
  __vo uint32_t RCC_CIR;
  __vo uint32_t RCC_APB2RSTR;
- __vo uint32_t CC_APB1RSTR;
+ __vo uint32_t RCC_APB1RSTR;
  __vo uint32_t RCC_AHBENR;
  __vo uint32_t RCC_APB2ENR;
  __vo uint32_t RCC_APB1ENR;
@@ -261,15 +261,7 @@ __vo uint32_t SYSCFG_EXTICR[4];
 								  (x == GPIOH) ? 7 : 0)
 
 /*SPI clock enable and disable macros */
-#define SPI1_PCLK_EN() (RCC->RCC_APB2ENR |= (1 << 12) )
-#define SPI2_PCLK_EN() (RCC->RCC_APB1ENR |= (1 << 14) )
-#define SPI3_PCLK_EN() (RCC->RCC_APB1ENR |= (1 << 15) )
-#define SPI4_PCLK_EN() (RCC->RCC_APB2ENR |= (1 << 15) )
 
-#define SPI1_PCLK_DI() (RCC->RCC_APB2ENR &= ~(1 << 12) )
-#define SPI2_PCLK_DI() (RCC->RCC_APB1ENR &= ~(1 << 14) )
-#define SPI3_PCLK_DI() (RCC->RCC_APB1ENR &= ~(1 << 15) )
-#define SPI4_PCLK_DI() (RCC->RCC_APB2ENR &= ~(1 << 15) )
 
 
 #include "stm32f303xx_spi_drv.h"

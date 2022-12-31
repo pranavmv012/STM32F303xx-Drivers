@@ -1,0 +1,2 @@
+stm32f303xx_spi_drv.c:40:6:SPI_PCLKControl	16	static
+stm32f303xx_spi_drv.c:94:6:SPI_DeInit	16	static

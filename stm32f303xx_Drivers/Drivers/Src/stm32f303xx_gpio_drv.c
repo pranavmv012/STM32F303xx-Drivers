@@ -229,7 +229,7 @@ void GPIO_DeInit(GPIO_Reg_Def_t *pGPIOx)
 		GPIOB_REG_RESET();
 	}else if(pGPIOx == GPIOC)
 	{
-		GPIOC_REG_RESET();;
+		GPIOC_REG_RESET();
 	} else if(pGPIOx == GPIOD)
 	{
 		GPIOD_REG_RESET();
@@ -238,7 +238,7 @@ void GPIO_DeInit(GPIO_Reg_Def_t *pGPIOx)
 		GPIOE_REG_RESET();
 	}else if(pGPIOx == GPIOF)
 	{
-		GPIOF_REG_RESET();;
+		GPIOF_REG_RESET();
 	}else if(pGPIOx == GPIOG)
 	{
 		GPIOG_REG_RESET();
