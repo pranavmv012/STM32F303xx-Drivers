@@ -84,6 +84,8 @@ void SPI_PCLKControl(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI)
  */
 void SPI_Init(SPI_Handle_t *pSPIHandle)
 {
+	//Enable the peripheral clock in init to help the user not to declare explicitly
+	SPI_PCLKControl(pSPIHandle->pSPIx, ENABLE);
 	//configure CR1 reg
 	uint32_t tempreg = 0;
 	//Configuring device mode

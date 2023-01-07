@@ -17,16 +17,60 @@
  *Alternate functionality AF5
  */
 #include "stm32f303xx.h"
+#include <string.h>
 #include <stdint.h>
-
-void spi_gpio_init(void)
+/*
+ * Pin configure. GPIO alternate function to spi2 pins and init
+ */
+void spi2_gpio_init(void)
 {
+GPIO_Handle_t SPI2pins;
+//enable the peripheral clock for gpiob : its done in the init function itself
 
+SPI2pins.pGPIOx = GPIOB;
+SPI2pins.GPIO_Pin_Config.GPIO_PinMode = GPIO_MODE_AF;
+SPI2pins.GPIO_Pin_Config.GPIO_PinAFmode = GPIO_AFR_AF5;
+SPI2pins.GPIO_Pin_Config.GPIO_PinOType = GPIO_OUT_TYPE_PP; //spi does not need open drain. so pp
+SPI2pins.GPIO_Pin_Config.GPIO_PinSpeed = GPIO_OUT_SPEED_HIGH;
+SPI2pins.GPIO_Pin_Config.GPIO_PinPuPdCntrl = GPIO_PUPDR_NPUPD;
+
+//spi2 mosi
+SPI2pins.GPIO_Pin_Config.GPIO_PinNum = GPIO_PIN_15;
+GPIO_Init(&SPI2pins);
+//spi2 miso
+SPI2pins.GPIO_Pin_Config.GPIO_PinNum = GPIO_PIN_14;
+GPIO_Init(&SPI2pins);
+//spi2 sclk
+SPI2pins.GPIO_Pin_Config.GPIO_PinNum = GPIO_PIN_13;
+GPIO_Init(&SPI2pins);
+//spi2 nss
+SPI2pins.GPIO_Pin_Config.GPIO_PinNum = GPIO_PIN_12;
+GPIO_Init(&SPI2pins);
+}
+/*
+ * spi2 config and init.
+ */
+void spi2_init()
+{
+  SPI_Handle_t SPI2Handle;
+
+  SPI2Handle.pSPIx = SPI2;
+  SPI2Handle.SPIConfig.SPI_BusConfig = SPI_BUS_CONFIG_FD;
+  SPI2Handle.SPIConfig.SPI_DeviceMode = SPI_DEVICE_MODE_MASTER;
+  SPI2Handle.SPIConfig.SPI_SclkSpeed = SPI_SCLK_SPEED_DIV2;
+  SPI2Handle.SPIConfig.SPI_DFF = SPI_DFF_8BITS;
+  SPI2Handle.SPIConfig.SPI_SSM = SPI_SSM_SW_EN;
+  SPI2Handle.SPIConfig.SPI_CPHA = SPI_CPHA_LOW;
+  SPI2Handle.SPIConfig.SPI_CPOL = SPI_CPOL_LOW;
+
+  SPI_Init(&SPI2Handle);
 }
 int main(void)
 {
-
-	spi_gpio_init();
+	char DataToSend[] = "Hello Pranav";
+	spi2_gpio_init();
+	spi2_init();
+	SPI_SendData(SPI2, (uint8_t*)DataToSend, strlen(DataToSend));
 	while(1);
 
 }
