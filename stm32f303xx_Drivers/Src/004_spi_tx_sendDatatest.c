@@ -65,11 +65,18 @@ void spi2_init()
 
   SPI_Init(&SPI2Handle);
 }
+//main function
 int main(void)
 {
 	char DataToSend[] = "Hello Pranav";
+	//spi af config
 	spi2_gpio_init();
+	//spi2 config and init
 	spi2_init();
+	//spi2 enable.
+	//Nss singal interally high to avoid modf error
+	SPI_SSIConfig(SPI2, ENABLE);
+	SPI_peri_control(SPI2, ENABLE);
 	SPI_SendData(SPI2, (uint8_t*)DataToSend, strlen(DataToSend));
 	while(1);
 

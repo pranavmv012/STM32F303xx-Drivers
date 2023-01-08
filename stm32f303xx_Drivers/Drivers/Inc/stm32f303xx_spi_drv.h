@@ -101,4 +101,9 @@ void SPI_IRQHandler(SPI_Handle_t *pSPIHandle);
 
 uint8_t  SPIgetFlagStatus(SPI_Reg_Def_t *pSPIx, uint32_t FlagName);
 
+/*
+ * Other SPI apis
+ */
+void SPI_peri_control(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI);
+void SPI_SSIConfig(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI);
 #endif /* INC_STM32F303XX_SPI_DRV_H_ */

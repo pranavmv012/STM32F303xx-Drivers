@@ -1,5 +1,7 @@
 stm32f303xx_spi_drv.c:40:6:SPI_PCLKControl	16	static
 stm32f303xx_spi_drv.c:85:6:SPI_Init	24	static
 stm32f303xx_spi_drv.c:123:6:SPI_DeInit	16	static
-stm32f303xx_spi_drv.c:148:6:SPI_SendData	24	static
-stm32f303xx_spi_drv.c:220:10:SPIgetFlagStatus	16	static
+stm32f303xx_spi_drv.c:147:6:SPI_peri_control	16	static
+stm32f303xx_spi_drv.c:168:6:SPI_SSIConfig	16	static
+stm32f303xx_spi_drv.c:190:6:SPI_SendData	24	static
+stm32f303xx_spi_drv.c:262:10:SPIgetFlagStatus	16	static

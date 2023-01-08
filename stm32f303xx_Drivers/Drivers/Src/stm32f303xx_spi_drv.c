@@ -138,6 +138,48 @@ void SPI_DeInit(SPI_Reg_Def_t *pSPIx)
 }
 /*
  * ===  FUNCTION  ======================================================================
+ *   Name		:  SPI_peri_control
+ *   Description:  Function to enable or disable SPI peripheral.
+ *   Inputs		:  Pointer to base address of the SPI port, Enable or disable variable
+ * Output/return:  None.
+ * =====================================================================================
+ */
+void SPI_peri_control(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI)
+{
+ if(ENorDI == ENABLE)
+ {
+	 //set the pse bit in cr1 reg
+	 pSPIx->CR1 |= (1 << SPI_CR1_SPE);
+ }
+ else
+ {
+	 //reset the pse bit in cr1 reg
+	 pSPIx->CR1 &= ~(1 << SPI_CR1_SPE);
+ }
+}
+/*
+ * ===  FUNCTION  ======================================================================
+ *   Name		:  SPI_SSIConfig
+ *   Description:  Function to set or reset SPI ssi.
+ *   Inputs		:  Pointer to base address of the SPI port, Enable or disable variable
+ * Output/return:  None.
+ * =====================================================================================
+ */
+void SPI_SSIConfig(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI)
+{
+ if(ENorDI == ENABLE)
+ {
+	 //set the ssi bit in cr1 reg
+	 pSPIx->CR1 |= (1 << SPI_CR1_SSI);
+ }
+ else
+ {
+	 //reset the ssi bit in cr1 reg
+	 pSPIx->CR1 &= ~(1 << SPI_CR1_SSI);
+ }
+}
+/*
+ * ===  FUNCTION  ======================================================================
  *   Name		:  SPI_SendData
  *   Description:  Function to send data over SPI. Blockig call. the function wouldn't
  *   			   return until all the bytes in the buffer are sent out.
