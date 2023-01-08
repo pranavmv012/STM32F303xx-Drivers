@@ -140,6 +140,8 @@ void GPIO_PCLKControl(GPIO_Reg_Def_t *pGPIOx, uint8_t ENorDI)
 void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 {
 	uint32_t temp=0;
+	//enable the clock control implicitly to help user.
+	GPIO_PCLKControl(pGPIOHandle->pGPIOx, ENABLE);
 //configure the mode
 
 	if(pGPIOHandle->GPIO_Pin_Config.GPIO_PinMode <= GPIO_MODE_ANALOG)

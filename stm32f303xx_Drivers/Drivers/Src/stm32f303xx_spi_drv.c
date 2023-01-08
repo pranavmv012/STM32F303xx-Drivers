@@ -84,6 +84,8 @@ void SPI_PCLKControl(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI)
  */
 void SPI_Init(SPI_Handle_t *pSPIHandle)
 {
+	//Enable the peripheral clock in init to help the user not to declare explicitly
+	SPI_PCLKControl(pSPIHandle->pSPIx, ENABLE);
 	//configure CR1 reg
 	uint32_t tempreg = 0;
 	//Configuring device mode
@@ -133,6 +135,48 @@ void SPI_DeInit(SPI_Reg_Def_t *pSPIx)
 	{
 		SPI4_REG_RESET();
 	}
+}
+/*
+ * ===  FUNCTION  ======================================================================
+ *   Name		:  SPI_peri_control
+ *   Description:  Function to enable or disable SPI peripheral.
+ *   Inputs		:  Pointer to base address of the SPI port, Enable or disable variable
+ * Output/return:  None.
+ * =====================================================================================
+ */
+void SPI_peri_control(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI)
+{
+ if(ENorDI == ENABLE)
+ {
+	 //set the pse bit in cr1 reg
+	 pSPIx->CR1 |= (1 << SPI_CR1_SPE);
+ }
+ else
+ {
+	 //reset the pse bit in cr1 reg
+	 pSPIx->CR1 &= ~(1 << SPI_CR1_SPE);
+ }
+}
+/*
+ * ===  FUNCTION  ======================================================================
+ *   Name		:  SPI_SSIConfig
+ *   Description:  Function to set or reset SPI ssi.
+ *   Inputs		:  Pointer to base address of the SPI port, Enable or disable variable
+ * Output/return:  None.
+ * =====================================================================================
+ */
+void SPI_SSIConfig(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI)
+{
+ if(ENorDI == ENABLE)
+ {
+	 //set the ssi bit in cr1 reg
+	 pSPIx->CR1 |= (1 << SPI_CR1_SSI);
+ }
+ else
+ {
+	 //reset the ssi bit in cr1 reg
+	 pSPIx->CR1 &= ~(1 << SPI_CR1_SSI);
+ }
 }
 /*
  * ===  FUNCTION  ======================================================================
