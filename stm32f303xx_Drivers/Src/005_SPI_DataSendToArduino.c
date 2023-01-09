@@ -86,7 +86,7 @@ void delay()
 //main function
 int main(void)
 {
-	char DataToSend[] = "Hello Pranav";
+	char DataToSend[] = "Hello Pranav, family: Vasudevan, Raji, Pranav, Manomy!";
 	//spi af config
 	spi2_gpio_init();
 	gpio_buttonInit();
