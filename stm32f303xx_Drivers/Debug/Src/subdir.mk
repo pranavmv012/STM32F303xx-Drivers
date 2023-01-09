@@ -5,17 +5,17 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Src/004_spi_tx_sendDatatest.c \
+../Src/005_SPI_DataSendToArduino.c \
 ../Src/syscalls.c \
 ../Src/sysmem.c 
 
 OBJS += \
-./Src/004_spi_tx_sendDatatest.o \
+./Src/005_SPI_DataSendToArduino.o \
 ./Src/syscalls.o \
 ./Src/sysmem.o 
 
 C_DEPS += \
-./Src/004_spi_tx_sendDatatest.d \
+./Src/005_SPI_DataSendToArduino.d \
 ./Src/syscalls.d \
 ./Src/sysmem.d 
 
@@ -27,7 +27,7 @@ Src/%.o: ../Src/%.c Src/subdir.mk
 clean: clean-Src
 
 clean-Src:
-	-$(RM) ./Src/004_spi_tx_sendDatatest.d ./Src/004_spi_tx_sendDatatest.o ./Src/syscalls.d ./Src/syscalls.o ./Src/sysmem.d ./Src/sysmem.o
+	-$(RM) ./Src/005_SPI_DataSendToArduino.d ./Src/005_SPI_DataSendToArduino.o ./Src/syscalls.d ./Src/syscalls.o ./Src/sysmem.d ./Src/sysmem.o
 
 .PHONY: clean-Src
 

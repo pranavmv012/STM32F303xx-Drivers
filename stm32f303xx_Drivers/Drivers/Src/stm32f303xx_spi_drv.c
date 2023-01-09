@@ -180,6 +180,29 @@ void SPI_SSIConfig(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI)
 }
 /*
  * ===  FUNCTION  ======================================================================
+ *   Name		:  SPI_SSOEConfig
+ *   Description:  Function to set or reset SPI ssoe bit in cr2.This is required when
+ *   			   hardware slave management is selected.
+ *   Inputs		:  Pointer to base address of the SPI port, Enable or disable variable
+ * Output/return:  None.
+ * =====================================================================================
+ */
+void SPI_SSOEConfig(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI)
+{
+	 if(ENorDI == ENABLE)
+	 {
+		 //set the ssi bit in cr1 reg
+		 pSPIx->CR2 |= (1 << SPI_CR2_SSOE);
+	 }
+	 else
+	 {
+		 //reset the ssi bit in cr1 reg
+		 pSPIx->CR1 &= ~(1 << SPI_CR2_SSOE);
+	 }
+}
+
+/*
+ * ===  FUNCTION  ======================================================================
  *   Name		:  SPI_SendData
  *   Description:  Function to send data over SPI. Blockig call. the function wouldn't
  *   			   return until all the bytes in the buffer are sent out.
