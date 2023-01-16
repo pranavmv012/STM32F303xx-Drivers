@@ -235,13 +235,35 @@ void SPI_SendData(SPI_Reg_Def_t *pSPIx, uint8_t *pTxbuffer, uint32_t Len)
 }
 /*
  * ===  FUNCTION  ======================================================================
- *   Name		:  SPI_SendData
+ *   Name		:  SPI_ReceiveData
  *   Description:  Function to send data over SPI
  *   Inputs		:  Pointer to the base add of the SPI, pointer to the rx data, Data len
  * Output/return:  None.
  * =====================================================================================
  */
-void SPI_ReceiveData(SPI_Reg_Def_t *pSPIx, uint8_t *pRxbuffer, uint32_t Len);
+void SPI_ReceiveData(SPI_Reg_Def_t *pSPIx, uint8_t *pRxbuffer, uint32_t Len)
+{
+	//when length is 0, there is not data remaining and exit the funciton.
+	while(Len > 0)
+	{
+//		while(!(pSPIx->SR & (1 << SPI_SR_TXE)));
+		while (SPIgetFlagStatus(pSPIx, SPI_RXNE_FLAG) == FLAG_RESET);//wait for the length is zero
+		//check the dff
+		if(pSPIx->CR1 & (1 << SPI_CR1_CRCL))
+		{
+			*((uint16_t* )pRxbuffer) = pSPIx->DR;// load 16bit data from the dr to buffer
+			Len--;
+			Len--; //2 times as 2 bytes of data is transmitted.
+			(uint16_t*)pRxbuffer++; //increment the buffer by 2
+		}
+		else
+		{
+		    *pRxbuffer = pSPIx->DR;//8bit
+			Len--; //1 byte of data sent out
+			pRxbuffer++; //increment the buffer by 1
+		}
+	}
+}
 /*
  * Irq config and irq handling..
  */
@@ -282,7 +304,7 @@ void SPI_IRQHandler(SPI_Handle_t *pSPIHandle);
  * Output/return:  None.
  * =====================================================================================
  */
-uint8_t  SPIgetFlagStatus(SPI_Reg_Def_t *pSPIx, uint32_t FlagName)
+uint8_t SPIgetFlagStatus(SPI_Reg_Def_t *pSPIx, uint32_t FlagName)
 {
 	if(pSPIx->SR & FlagName)//(1 << FlagName)
 	{

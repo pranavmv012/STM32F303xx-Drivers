@@ -5,4 +5,5 @@ stm32f303xx_spi_drv.c:147:6:SPI_peri_control	16	static
 stm32f303xx_spi_drv.c:168:6:SPI_SSIConfig	16	static
 stm32f303xx_spi_drv.c:190:6:SPI_SSOEConfig	16	static
 stm32f303xx_spi_drv.c:213:6:SPI_SendData	24	static
-stm32f303xx_spi_drv.c:285:10:SPIgetFlagStatus	16	static
+stm32f303xx_spi_drv.c:244:6:SPI_ReceiveData	24	static
+stm32f303xx_spi_drv.c:307:9:SPIgetFlagStatus	16	static
