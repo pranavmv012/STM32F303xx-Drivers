@@ -32,6 +32,17 @@ typedef struct
 {
 	SPI_Reg_Def_t *pSPIx; //pointer to hold the base address of the spi line
 	SPI_Config_t SPIConfig;
+	//updating handle structure for spi interrupt.
+	/*spi interrupt fuction just saves the address and data in the user buffer to
+	to a global and the place holder for those global are define here as this will
+	be an arugument to spi interrupt handler where the data is transferred to tx buffer*/
+	uint8_t *pTxBuffer; //to store the app tx buffer address
+	uint8_t *pRxBuffer; //to store the app RX buffer address
+	uint32_t TxLen; //tx buffer length
+	uint32_t RxLen; //tx buffer length
+	uint8_t TxState; //to store the state of tx
+	uint8_t RxState;//to store the state of tx
+
 }SPI_Handle_t;
 
 /*
@@ -69,7 +80,11 @@ typedef struct
 //@SPI_SSM
 #define SPI_SSM_SW_EN		1
 #define SPI_SSM_SW_DI		0
-
+//spi rx and tx statuses
+#define SPI_READY 			0
+#define SPI_BUSY_IN_RX 		1
+#define SPI_BUSY_IN_TX 		2
+//masks to obtain flag status.
 #define SPI_TXE_FLAG 	(1 << SPI_SR_TXE)
 #define SPI_RXNE_FLAG 	(1 << SPI_SR_RXNE)
 #define SPI_BUSY_FLAG 	(1 << SPI_SR_BSY)
@@ -92,6 +107,11 @@ void SPI_DeInit(SPI_Reg_Def_t *pSPIx);
  */
 void SPI_SendData(SPI_Reg_Def_t *pSPIx, uint8_t *pTxbuffer, uint32_t Len);
 void SPI_ReceiveData(SPI_Reg_Def_t *pSPIx, uint8_t *pRxbuffer, uint32_t Len);
+/*
+ * Data send and receive with interrupt
+ */
+uint8_t SPI_SendDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pTxbuffer, uint32_t Len);
+uint8_t SPI_ReceiveDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pRxbuffer, uint32_t Len);
 /*
  * Irq config and irq handling..
  */

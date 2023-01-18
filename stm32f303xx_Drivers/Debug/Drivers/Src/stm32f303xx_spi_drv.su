@@ -6,4 +6,8 @@ stm32f303xx_spi_drv.c:168:6:SPI_SSIConfig	16	static
 stm32f303xx_spi_drv.c:190:6:SPI_SSOEConfig	16	static
 stm32f303xx_spi_drv.c:213:6:SPI_SendData	24	static
 stm32f303xx_spi_drv.c:244:6:SPI_ReceiveData	24	static
-stm32f303xx_spi_drv.c:307:9:SPIgetFlagStatus	16	static
+stm32f303xx_spi_drv.c:276:9:SPI_SendDataIT	32	static
+stm32f303xx_spi_drv.c:303:9:SPI_ReceiveDataIT	32	static
+stm32f303xx_spi_drv.c:333:6:SPI_IRQConfig	16	static
+stm32f303xx_spi_drv.c:371:6:SPI_IRQ_PriorityConfig	24	static
+stm32f303xx_spi_drv.c:396:9:SPIgetFlagStatus	16	static

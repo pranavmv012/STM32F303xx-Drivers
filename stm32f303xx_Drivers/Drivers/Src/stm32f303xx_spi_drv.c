@@ -265,6 +265,61 @@ void SPI_ReceiveData(SPI_Reg_Def_t *pSPIx, uint8_t *pRxbuffer, uint32_t Len)
 	}
 }
 /*
+ * ===  FUNCTION  ======================================================================
+ *   Name		:  SPI_SendDataIT
+ *   Description:  Function to send data over SPI. non blocking call. the function
+ *   			   wouldn't return until all the bytes in the buffer are sent out.
+ *   Inputs		:  Pointer to the spi handle, pointer to the tx data, Data len
+ * Output/return:  None.
+ * =====================================================================================
+ */
+uint8_t SPI_SendDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pTxbuffer, uint32_t Len)
+{
+	uint8_t status = pSPIHandle->TxState;
+
+	if(status != SPI_BUSY_IN_TX )
+	{
+		//store the buffer values to the global
+		pSPIHandle->pTxBuffer = pTxbuffer;
+		pSPIHandle->TxLen = Len;
+
+		//make the spi status busy so that the other code can take control over this spi
+
+		pSPIHandle->TxState = SPI_BUSY_IN_TX;
+		//enable txe flag to generate interrupt.
+		pSPIHandle->pSPIx->CR2 |= (1 << SPI_CR2_TXEIE);
+
+	}
+	return status;
+}
+/*
+ * ===  FUNCTION  ======================================================================
+ *   Name		:  SPI_ReceiveDataIT
+ *   Description:  Function to send data over SPI in non blocking way.
+ *   Inputs		:  Pointer to the spi handle, pointer to the rx data, Data len
+ * Output/return:  None.
+ * =====================================================================================
+ */
+uint8_t SPI_ReceiveDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pRxbuffer, uint32_t Len)
+{
+
+	uint8_t status = pSPIHandle->RxState;
+	if(status != SPI_BUSY_IN_RX )
+	{
+		//store the buffer values to the global
+		pSPIHandle->pRxBuffer = pRxbuffer;
+		pSPIHandle->RxLen = Len;
+
+		//make the spi status busy so that the other code can take control over this spi
+
+		pSPIHandle->RxState = SPI_BUSY_IN_RX;
+		//enable txe flag to generate interrupt.
+		pSPIHandle->pSPIx->CR2 |= (1 << SPI_CR2_RXNEIE);
+
+	}
+	return status;
+}
+/*
  * Irq config and irq handling..
  */
 /*
@@ -275,7 +330,35 @@ void SPI_ReceiveData(SPI_Reg_Def_t *pSPIx, uint8_t *pRxbuffer, uint32_t Len)
  * Output/return:  None.
  * =====================================================================================
  */
-void SPI_IRQConfig(uint8_t IRQNum, uint8_t ENorDI);
+void SPI_IRQConfig(uint8_t IRQNum, uint8_t ENorDI)
+{
+	if( ENorDI == ENABLE)
+	{
+		if(IRQNum <= 31)
+		{
+			*NVIC_ISER0 |= (1 << IRQNum);
+		}else if(IRQNum >31 && IRQNum < 64)
+		{
+			*NVIC_ISER1 |= (1 << (IRQNum % 32));
+		}else if (IRQNum >63 && IRQNum < 96)
+		{
+			*NVIC_ISER2 |= (1 << (IRQNum % 64));
+		}
+	}
+	else
+	{
+		if(IRQNum <= 31)
+		{
+			*NVIC_ICER0 |= (1 << IRQNum);
+		}else if(IRQNum >31 && IRQNum < 64)
+		{
+			*NVIC_ICER1 |= (1 << (IRQNum % 32));
+		}else if (IRQNum >63 && IRQNum < 96)
+		{
+			*NVIC_ICER2 |= (1 << (IRQNum % 64));
+		}
+	}
+}
 /*
  * ===  FUNCTION  ======================================================================
  *   Name		:  SPI_IRQ_PriorityConfig
@@ -285,7 +368,13 @@ void SPI_IRQConfig(uint8_t IRQNum, uint8_t ENorDI);
  * Output/return:  None.
  * =====================================================================================
  */
-void SPI_IRQ_PriorityConfig(uint8_t IRQNum, uint32_t IRQPriority);
+void SPI_IRQ_PriorityConfig(uint8_t IRQNum, uint32_t IRQPriority)
+{
+	uint8_t ipr = IRQNum / 4;
+	uint8_t ipr_sec = IRQNum % 4;
+	uint8_t shift = (8 * ipr_sec) + (8 - NO_PR_BIT_IMPLEMENTED);
+	*(NVIC_IPR_BASE_ADDR + ipr) |= (IRQPriority << shift);
+}
 /*
  * ===  FUNCTION  ======================================================================
  *   Name		:  SPI_IRQHandler

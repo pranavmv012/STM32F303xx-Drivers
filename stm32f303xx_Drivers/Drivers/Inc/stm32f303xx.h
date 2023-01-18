@@ -116,7 +116,8 @@
 /*
  * IRQ number for EXTI line - specific to stm32f303RE
  * Refer the NVIC vector table: RM 289/1141
- */
+ *-was done for gpio*/
+
 #define IRQ_NUM_EXTI0 		6
 #define IRQ_NUM_EXTI1 		7
 #define IRQ_NUM_EXTI2_TS 	8
@@ -124,8 +125,14 @@
 #define IRQ_NUM_EXTI4 		10
 #define IRQ_NUM_EXTI9_5 	23
 #define IRQ_NUM_EXTI15_10	40
-
-
+/*
+ * IRQ number of spi peripheral-
+ * associated with spi global intervals.
+ */
+#define IRQ_NUM_SPI1		42
+#define IRQ_NUM_SPI2		43
+#define IRQ_NUM_SPI3		58
+#define IRQ_NUM_SPI4		84
 /*NVIC IRQ priority*/
 #define NVIC_IRQ_PRIO0		0
 #define NVIC_IRQ_PRIO1		1
