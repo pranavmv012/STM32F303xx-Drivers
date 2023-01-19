@@ -16,8 +16,9 @@
 
 
 #include <stdint.h>
+#include <stddef.h>
 #define __vo	volatile
-
+#define __weak 	__attribute__((weak))
 /*=====================================================================================
  * Processor side register macros - ARM cortex M4
  *
@@ -57,6 +58,8 @@
 #define RESET 		DISABLE
 #define PIN_SET 	SET
 #define PIN_RESET 	RESET
+#define FLAG_SET	SET
+#define FLAG_RESET	RESET
 
 /*=====================================================================================
  * Peripheral side register macros - STM32F303RE
@@ -114,7 +117,8 @@
 /*
  * IRQ number for EXTI line - specific to stm32f303RE
  * Refer the NVIC vector table: RM 289/1141
- */
+ *-was done for gpio*/
+
 #define IRQ_NUM_EXTI0 		6
 #define IRQ_NUM_EXTI1 		7
 #define IRQ_NUM_EXTI2_TS 	8
@@ -122,8 +126,14 @@
 #define IRQ_NUM_EXTI4 		10
 #define IRQ_NUM_EXTI9_5 	23
 #define IRQ_NUM_EXTI15_10	40
-
-
+/*
+ * IRQ number of spi peripheral-
+ * associated with spi global intervals.
+ */
+#define IRQ_NUM_SPI1		42
+#define IRQ_NUM_SPI2		43
+#define IRQ_NUM_SPI3		58
+#define IRQ_NUM_SPI4		84
 /*NVIC IRQ priority*/
 #define NVIC_IRQ_PRIO0		0
 #define NVIC_IRQ_PRIO1		1
@@ -142,7 +152,7 @@
 #define NVIC_IRQ_PRIO14		14
 #define NVIC_IRQ_PRIO15		15
 
-/*Structures for peripheral registers -GPIO*/
+/*Structures for peripheral registers -GPIO */
 
 typedef struct
 {
@@ -158,7 +168,22 @@ typedef struct
  __vo uint32_t BRR;
 }GPIO_Reg_Def_t;
 
-/*Structures for peripheral registers -GPIO*/
+/*Structures for peripheral registers SPI */
+
+typedef struct
+{
+__vo uint32_t CR1;
+__vo uint32_t CR2;
+__vo uint32_t SR;
+__vo uint32_t DR;
+__vo uint32_t CRCPR;
+__vo uint32_t RXCRCR;
+__vo uint32_t TXCRCR;
+__vo uint32_t I2SCFGR;
+__vo uint32_t I2SPR;
+}SPI_Reg_Def_t;
+
+/*Structures for peripheral registers RCC */
 
 typedef struct
 {
@@ -166,7 +191,7 @@ typedef struct
  __vo uint32_t RCC_CFGR;
  __vo uint32_t RCC_CIR;
  __vo uint32_t RCC_APB2RSTR;
- __vo uint32_t CC_APB1RSTR;
+ __vo uint32_t RCC_APB1RSTR;
  __vo uint32_t RCC_AHBENR;
  __vo uint32_t RCC_APB2ENR;
  __vo uint32_t RCC_APB1ENR;
@@ -176,6 +201,8 @@ typedef struct
  __vo uint32_t RCC_CFGR2;
  __vo uint32_t RCC_CFGR3;
 }RCC_Reg_Def_t;
+
+/*Structures for peripheral registers EXTI*/
 
 typedef struct
 
@@ -187,6 +214,8 @@ __vo uint32_t EXTI_FTSR1;
 __vo uint32_t EXTI_SWIER1;
 __vo uint32_t EXTI_PR1;
 }EXTI_Reg_Def_t;
+
+/*Structures for peripheral registers Syscfg*/
 
 typedef struct
 {
@@ -207,6 +236,15 @@ __vo uint32_t SYSCFG_EXTICR[4];
 #define GPIOG	(GPIO_Reg_Def_t*)GPIOG_BASE_ADDR
 #define GPIOH	(GPIO_Reg_Def_t*)GPIOH_BASE_ADDR
 
+
+/*Peripheral definitions for SPIs*/
+#define SPI1 (SPI_Reg_Def_t*)SPI1_BASE_ADDR
+#define SPI2 (SPI_Reg_Def_t*)SPI2_BASE_ADDR
+#define SPI3 (SPI_Reg_Def_t*)SPI3_BASE_ADDR
+#define SPI4 (SPI_Reg_Def_t*)SPI4_BASE_ADDR
+
+
+/*Peripheral definitions for RCC*/
 #define RCC (RCC_Reg_Def_t*)RCC_BASE_ADDR
 
 
@@ -232,5 +270,49 @@ __vo uint32_t SYSCFG_EXTICR[4];
 								  (x == GPIOG) ? 6 : \
 								  (x == GPIOH) ? 7 : 0)
 
+/*SPI register bit position macros */
+//SPI control register 1
+#define SPI_CR1_CPHA		0
+#define SPI_CR1_CPOL		1
+#define SPI_CR1_MSTR		2
+#define SPI_CR1_BR			3
+#define SPI_CR1_SPE			6
+#define SPI_CR1_LSBFIRST	7
+#define SPI_CR1_SSI			8
+#define SPI_CR1_SSM			9
+#define SPI_CR1_RXONLY		10
+#define SPI_CR1_CRCL		11
+#define SPI_CR1_CRCNEXT		12
+#define SPI_CR1_CRCEN		13
+#define SPI_CR1_BIDIOE		14
+#define SPI_CR1_BIDIMODE	15
+//SPI control register 2
+
+#define SPI_CR2_RXDMAEN		0
+#define SPI_CR2_TXDMAEN		1
+#define SPI_CR2_SSOE		2
+#define SPI_CR2_NSSP		3
+#define SPI_CR2_FRF			4
+#define SPI_CR2_ERRIE		5
+#define SPI_CR2_RXNEIE		6
+#define SPI_CR2_TXEIE		7
+#define SPI_CR2_DS			8
+#define SPI_CR2_FRXTH		12
+#define SPI_CR2_LDMA_RX	 	13
+#define SPI_CR2_LDMA_TX	 	14
+//SPI status register
+#define SPI_SR_RXNE			0
+#define SPI_SR_TXE			1
+#define SPI_SR_CHSIDE		2
+#define SPI_SR_UDR			3
+#define SPI_SR_CRCERR		4
+#define SPI_SR_MODF			5
+#define SPI_SR_OVR			6
+#define SPI_SR_BSY			7
+#define SPI_SR_FRE			8
+#define SPI_SR_FRLVL		9
+#define SPI_SR_FTLVL		11
+
+#include "stm32f303xx_spi_drv.h"
 #include "stm32f303xx_gpio_drv.h"
 #endif /* INC_STM32F303XX_H_ */

@@ -140,6 +140,8 @@ void GPIO_PCLKControl(GPIO_Reg_Def_t *pGPIOx, uint8_t ENorDI)
 void GPIO_Init(GPIO_Handle_t *pGPIOHandle)
 {
 	uint32_t temp=0;
+	//enable the clock control implicitly to help user.
+	GPIO_PCLKControl(pGPIOHandle->pGPIOx, ENABLE);
 //configure the mode
 
 	if(pGPIOHandle->GPIO_Pin_Config.GPIO_PinMode <= GPIO_MODE_ANALOG)
@@ -229,7 +231,7 @@ void GPIO_DeInit(GPIO_Reg_Def_t *pGPIOx)
 		GPIOB_REG_RESET();
 	}else if(pGPIOx == GPIOC)
 	{
-		GPIOC_REG_RESET();;
+		GPIOC_REG_RESET();
 	} else if(pGPIOx == GPIOD)
 	{
 		GPIOD_REG_RESET();
@@ -238,7 +240,7 @@ void GPIO_DeInit(GPIO_Reg_Def_t *pGPIOx)
 		GPIOE_REG_RESET();
 	}else if(pGPIOx == GPIOF)
 	{
-		GPIOF_REG_RESET();;
+		GPIOF_REG_RESET();
 	}else if(pGPIOx == GPIOG)
 	{
 		GPIOG_REG_RESET();

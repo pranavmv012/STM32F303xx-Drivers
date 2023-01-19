@@ -1,0 +1,6 @@
+006_ArduinoSendReceiveSPI.c:48:6:spi2_gpio_init	24	static
+006_ArduinoSendReceiveSPI.c:76:6:spi2_init	40	static
+006_ArduinoSendReceiveSPI.c:91:6:gpio_buttonInit	24	static
+006_ArduinoSendReceiveSPI.c:101:6:delay	16	static
+006_ArduinoSendReceiveSPI.c:109:9:SPI_ResponseVerify	16	static
+006_ArduinoSendReceiveSPI.c:119:5:main	24	static
