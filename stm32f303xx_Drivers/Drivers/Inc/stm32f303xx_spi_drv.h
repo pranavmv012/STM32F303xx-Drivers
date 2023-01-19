@@ -137,6 +137,10 @@ void SPI_peri_control(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI);
 void SPI_SSIConfig(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI);
 void SPI_SSOEConfig(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI);
 
+/*apis for the application to clear ovr flag and close the spi- used when irq used.*/
+void SPI_ClearOVRFlag(SPI_Reg_Def_t *pSPIx);
+void SPI_CloseTransmission(SPI_Handle_t *pSPIHandle);
+void SPI_CloseReception(SPI_Handle_t *pSPIHandle);
 /*call back function that has to be implemented by the app.*/
 void SPI_applicationEventCallback(SPI_Handle_t *pSPIHandle, uint8_t AppEvent);
 #endif /* INC_STM32F303XX_SPI_DRV_H_ */

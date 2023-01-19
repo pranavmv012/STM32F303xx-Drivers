@@ -391,7 +391,7 @@ void SPI_IRQ_PriorityConfig(uint8_t IRQNum, uint32_t IRQPriority)
  */
 
 /*helper functions for the isr*/
-void SPITxe_IrqHandle(SPI_Handle_t *pSPIHandle)
+static void SPITxe_IrqHandle(SPI_Handle_t *pSPIHandle)
 {
 	if(pSPIHandle->pSPIx->CR1 & (1 << SPI_CR1_CRCL))
 	{
@@ -410,16 +410,12 @@ void SPITxe_IrqHandle(SPI_Handle_t *pSPIHandle)
 	{
 		//txe is zero , close spi and inform app.
 		//prevents interrupts from setting up txeie flag.
-		pSPIHandle->pSPIx->CR2 &= ~(1 << SPI_CR2_TXEIE);
-		//clear the buffer and length
-		pSPIHandle->pTxBuffer = NULL;
-		pSPIHandle->TxLen = 0;
-		pSPIHandle->TxState = SPI_READY;
+		SPI_CloseTransmission(pSPIHandle);
 		//callback
 		SPI_applicationEventCallback(pSPIHandle, SPI_EVENT_TX_CMPLT);
 	}
 }
-void SPIRxne_IrqHandle(SPI_Handle_t *pSPIHandle)
+static void SPIRxne_IrqHandle(SPI_Handle_t *pSPIHandle)
 {
 	if(pSPIHandle->pSPIx->CR1 & (1 << SPI_CR1_CRCL))
 	{
@@ -438,17 +434,25 @@ void SPIRxne_IrqHandle(SPI_Handle_t *pSPIHandle)
 	{
 		//txe is zero , close spi and inform app.
 		//prevents interrupts from setting up txeie flag.
-		pSPIHandle->pSPIx->CR2 &= ~(1 << SPI_CR2_RXNEIE);
-		//clear the buffer and length
-		pSPIHandle->pRxBuffer = NULL;
-		pSPIHandle->RxLen = 0;
-		pSPIHandle->RxState = SPI_READY;
+		SPI_CloseReception(pSPIHandle);
 		//callback
 		SPI_applicationEventCallback(pSPIHandle, SPI_EVENT_RX_CMPLT);
 	}
 }
-void SPIOvr_IrqHandle(SPI_Handle_t *pSPIHandle)
+static void SPIOvr_IrqHandle(SPI_Handle_t *pSPIHandle)
 {
+	uint8_t temp; //to read the dr
+	//clear the ovr flag check the data sheet. read the dr and sr
+	if(pSPIHandle->TxState != SPI_BUSY_IN_TX)//what if the application needs to read the data. so clear only when the
+		//application is not busy in tx
+	{
+		temp = pSPIHandle->pSPIx->DR;
+		temp = pSPIHandle->pSPIx->SR;
+	}
+	(void)temp;
+	//inform the application //if the ovr flag is set and spi is busy in tx then call back is called and
+	//user app has to clear the over flag
+	SPI_applicationEventCallback(pSPIHandle, SPI_EVENT_OVR_ERR);
 
 }
 
@@ -497,6 +501,30 @@ uint8_t SPIgetFlagStatus(SPI_Reg_Def_t *pSPIx, uint32_t FlagName)
 	}
 	return FLAG_RESET;
 }
+
+void SPI_ClearOVRFlag(SPI_Reg_Def_t *pSPIx)
+{
+	 uint8_t temp;
+	 temp = pSPIx->DR;
+	 temp = pSPIx->SR;
+	 (void)temp;
+}
+void SPI_CloseTransmission(SPI_Handle_t *pSPIHandle)
+{
+	pSPIHandle->pSPIx->CR2 &= ~(1 << SPI_CR2_TXEIE);
+	//clear the buffer and length
+	pSPIHandle->pTxBuffer = NULL;
+	pSPIHandle->TxLen = 0;
+	pSPIHandle->TxState = SPI_READY;
+}
+void SPI_CloseReception(SPI_Handle_t *pSPIHandle)
+{
+	pSPIHandle->pSPIx->CR2 &= ~(1 << SPI_CR2_RXNEIE);
+	//clear the buffer and length
+	pSPIHandle->pRxBuffer = NULL;
+	pSPIHandle->RxLen = 0;
+	pSPIHandle->RxState = SPI_READY;
+}
 /*
  * ===  FUNCTION  ======================================================================
  *   Name		:  SPI_applicationEventCallback
@@ -507,7 +535,7 @@ uint8_t SPIgetFlagStatus(SPI_Reg_Def_t *pSPIx, uint32_t FlagName)
  * Output/return:  None.
  * =====================================================================================
  */
-weak void SPI_applicationEventCallback(SPI_Handle_t *pSPIHandle, uint8_t AppEvent)
+__weak void SPI_applicationEventCallback(SPI_Handle_t *pSPIHandle, uint8_t AppEvent)
 {
 
 }
