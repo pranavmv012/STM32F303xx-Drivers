@@ -1,5 +1,5 @@
 "./Drivers/Src/stm32f303xx_gpio_drv.o"
-"./Src/003_ButtonIrqLed.o"
+"./Src/main.o"
 "./Src/syscalls.o"
 "./Src/sysmem.o"
 "./Startup/startup_stm32f303retx.o"
