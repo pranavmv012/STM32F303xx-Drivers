@@ -84,6 +84,15 @@ typedef struct
 #define SPI_READY 			0
 #define SPI_BUSY_IN_RX 		1
 #define SPI_BUSY_IN_TX 		2
+
+/*
+ * Possible SPI Application events
+ */
+#define SPI_EVENT_TX_CMPLT   1
+#define SPI_EVENT_RX_CMPLT   2
+#define SPI_EVENT_OVR_ERR    3
+#define SPI_EVENT_CRC_ERR    4
+
 //masks to obtain flag status.
 #define SPI_TXE_FLAG 	(1 << SPI_SR_TXE)
 #define SPI_RXNE_FLAG 	(1 << SPI_SR_RXNE)
@@ -128,4 +137,6 @@ void SPI_peri_control(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI);
 void SPI_SSIConfig(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI);
 void SPI_SSOEConfig(SPI_Reg_Def_t *pSPIx, uint8_t ENorDI);
 
+/*call back function that has to be implemented by the app.*/
+void SPI_applicationEventCallback(SPI_Handle_t *pSPIHandle, uint8_t AppEvent);
 #endif /* INC_STM32F303XX_SPI_DRV_H_ */

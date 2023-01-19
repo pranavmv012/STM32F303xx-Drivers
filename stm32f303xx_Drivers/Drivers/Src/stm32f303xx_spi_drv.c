@@ -29,6 +29,11 @@ RCC_Reg_Def_t *psRCC = RCC;
 #define SPI2_REG_RESET() 	do{(psRCC->RCC_APB1RSTR |= (1 << 14));	(psRCC->RCC_APB1RSTR &= ~(1 << 14));} while(0)
 #define SPI3_REG_RESET() 	do{(psRCC->RCC_APB1RSTR |= (1 << 15));	(psRCC->RCC_APB1RSTR &= ~(1 << 15));} while(0)
 #define SPI4_REG_RESET() 	do{(psRCC->RCC_APB2RSTR |= (1 << 15));	(psRCC->RCC_APB2RSTR &= ~(1 << 25));} while(0)
+
+static void SPITxe_IrqHandle(SPI_Handle_t *pSPIHandle);
+static void SPIRxne_IrqHandle(SPI_Handle_t *pSPIHandle);
+static void SPIOvr_IrqHandle(SPI_Handle_t *pSPIHandle);
+
 /*
  * ===  FUNCTION  ======================================================================
  *   Name		:  SPI_PCLKControl
@@ -384,7 +389,98 @@ void SPI_IRQ_PriorityConfig(uint8_t IRQNum, uint32_t IRQPriority)
  * Output/return:  None.
  * =====================================================================================
  */
-void SPI_IRQHandler(SPI_Handle_t *pSPIHandle);
+
+/*helper functions for the isr*/
+void SPITxe_IrqHandle(SPI_Handle_t *pSPIHandle)
+{
+	if(pSPIHandle->pSPIx->CR1 & (1 << SPI_CR1_CRCL))
+	{
+		pSPIHandle->pSPIx->DR = *((uint16_t* )pSPIHandle->pTxBuffer);//16bit
+		pSPIHandle->TxLen--;
+		pSPIHandle->TxLen--; //2 times as 2 bytes of data is transmitted.
+		(uint16_t*)pSPIHandle->pTxBuffer++; //increment the buffer by 2
+	}
+	else
+	{
+		pSPIHandle->pSPIx->DR = *pSPIHandle->pTxBuffer;//8bit
+		pSPIHandle->TxLen--;
+		pSPIHandle->pTxBuffer++; //increment the buffer by 1
+	}
+	if(!pSPIHandle->TxLen)
+	{
+		//txe is zero , close spi and inform app.
+		//prevents interrupts from setting up txeie flag.
+		pSPIHandle->pSPIx->CR2 &= ~(1 << SPI_CR2_TXEIE);
+		//clear the buffer and length
+		pSPIHandle->pTxBuffer = NULL;
+		pSPIHandle->TxLen = 0;
+		pSPIHandle->TxState = SPI_READY;
+		//callback
+		SPI_applicationEventCallback(pSPIHandle, SPI_EVENT_TX_CMPLT);
+	}
+}
+void SPIRxne_IrqHandle(SPI_Handle_t *pSPIHandle)
+{
+	if(pSPIHandle->pSPIx->CR1 & (1 << SPI_CR1_CRCL))
+	{
+		pSPIHandle->pSPIx->DR = *((uint16_t* )pSPIHandle->pRxBuffer);//16bit
+		pSPIHandle->RxLen--;
+		pSPIHandle->RxLen--; //2 times as 2 bytes of data is transmitted.
+		(uint16_t*)pSPIHandle->pRxBuffer++; //increment the buffer by 2
+	}
+	else
+	{
+		pSPIHandle->pSPIx->DR = *pSPIHandle->pRxBuffer;//8bit
+		pSPIHandle->RxLen--;
+		pSPIHandle->pRxBuffer++; //increment the buffer by 1
+	}
+	if(!pSPIHandle->RxLen)
+	{
+		//txe is zero , close spi and inform app.
+		//prevents interrupts from setting up txeie flag.
+		pSPIHandle->pSPIx->CR2 &= ~(1 << SPI_CR2_RXNEIE);
+		//clear the buffer and length
+		pSPIHandle->pRxBuffer = NULL;
+		pSPIHandle->RxLen = 0;
+		pSPIHandle->RxState = SPI_READY;
+		//callback
+		SPI_applicationEventCallback(pSPIHandle, SPI_EVENT_RX_CMPLT);
+	}
+}
+void SPIOvr_IrqHandle(SPI_Handle_t *pSPIHandle)
+{
+
+}
+
+
+void SPI_IRQHandler(SPI_Handle_t *pSPIHandle)
+{
+	uint8_t temp1, temp2;
+	//txe flag interrupt
+	temp1 = (pSPIHandle->pSPIx->SR) & (1 << SPI_SR_TXE);
+	temp2 = (pSPIHandle->pSPIx->CR2) & (1 << SPI_CR2_TXEIE);
+
+	if( temp1 && temp2)
+	{
+		SPITxe_IrqHandle(pSPIHandle); //helper
+	}
+	//rxe flag interrupt
+	temp1 = (pSPIHandle->pSPIx->SR) & (1 << SPI_SR_RXNE);
+	temp2 = (pSPIHandle->pSPIx->CR2) & (1 << SPI_CR2_RXNEIE);
+
+	if( temp1 && temp2)
+	{
+		SPIRxne_IrqHandle(pSPIHandle);
+	}
+	temp1 = (pSPIHandle->pSPIx->SR) & (1 << SPI_SR_OVR);
+	temp2 = (pSPIHandle->pSPIx->CR2) & (1 << SPI_CR2_ERRIE);
+
+	if( temp1 && temp2)
+	{
+		SPIOvr_IrqHandle(pSPIHandle);
+	}
+
+}
 /*
  * ===  FUNCTION  ======================================================================
  *   Name		:  SPIgetFlagStatus
@@ -400,4 +496,18 @@ uint8_t SPIgetFlagStatus(SPI_Reg_Def_t *pSPIx, uint32_t FlagName)
 		return FLAG_SET;
 	}
 	return FLAG_RESET;
+}
+/*
+ * ===  FUNCTION  ======================================================================
+ *   Name		:  SPI_applicationEventCallback
+ *   Description:  Weak implementation of the callback. If the application doesn't
+ *   			   implement callback then compiler might throw errors. so this can be
+ *   			   overwritten by the user application function implementation.
+ *   Inputs		:  pointer to the spi base address. Flag name(which flag has to be read)
+ * Output/return:  None.
+ * =====================================================================================
+ */
+weak void SPI_applicationEventCallback(SPI_Handle_t *pSPIHandle, uint8_t AppEvent)
+{
+
 }

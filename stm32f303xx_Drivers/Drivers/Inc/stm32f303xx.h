@@ -16,8 +16,9 @@
 
 
 #include <stdint.h>
+#include <stddef.h>
 #define __vo	volatile
-
+#define weak 	__attribute__((weak))
 /*=====================================================================================
  * Processor side register macros - ARM cortex M4
  *
