@@ -72,5 +72,23 @@
 //#define I2C_CCR_DUTY 					14
 //#define I2C_CCR_FS  				 	15
 
+/*I2C configuration structure*/
+typedef struct
+{
+	uint32_t I2C_SCLSpeed;
+	uint8_t  I2C_DeviceAddress;
+	uint8_t  I2C_AckControl;
+	uint8_t  I2C_FMDutyCycle;
+
+}I2C_Config_t;
+
+
+/*Handle for spi*/
+typedef struct
+{
+	I2C_Reg_Def_t *pI2Cx; //pointer to hold the base address of the spi line
+	I2C_Config_t I2CConfig;
+
+}I2C_Handle_t;
 
 #endif /* INC_STM32F303XX_I2C_DRV_H_ */
