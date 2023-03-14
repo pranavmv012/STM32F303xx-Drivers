@@ -1,2 +1,6 @@
 
 *.swp
+
+stm32f303xx_Drivers/.settings/
+
+stm32f303xx_Drivers/Debug/

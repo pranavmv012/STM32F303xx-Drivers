@@ -12,6 +12,19 @@
 #include "stm32f303xx.h"
 #include <stdint.h>
 
+/*
+ * macro to get the port code. The base address of the peripheral is given to
+ * the function and it generates corresponding port code.
+ */
+
+#define GET_PORT_CODE(x)	     ((x == GPIOA) ? 0 : \
+								  (x == GPIOB) ? 1 : \
+								  (x == GPIOC) ? 2 : \
+								  (x == GPIOD) ? 3 : \
+								  (x == GPIOE) ? 4 : \
+								  (x == GPIOF) ? 5 : \
+								  (x == GPIOG) ? 6 : \
+								  (x == GPIOH) ? 7 : 0)
 
 typedef struct
 {

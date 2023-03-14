@@ -183,6 +183,24 @@ __vo uint32_t I2SCFGR;
 __vo uint32_t I2SPR;
 }SPI_Reg_Def_t;
 
+/*Structure for peripheral registers I2C*/
+
+typedef struct
+{
+__vo uint32_t CR1;
+__vo uint32_t CR2;
+__vo uint32_t OAR1;
+__vo uint32_t OAR2;
+__vo uint32_t TIMINGR;
+__vo uint32_t TIMEOUTR;
+__vo uint32_t ISR;
+__vo uint32_t ICR;
+__vo uint32_t PECR;
+__vo uint32_t RXDR;
+__vo uint32_t TXDR;
+}I2C_Reg_Def_t;
+
+
 /*Structures for peripheral registers RCC */
 
 typedef struct
@@ -243,6 +261,11 @@ __vo uint32_t SYSCFG_EXTICR[4];
 #define SPI3 (SPI_Reg_Def_t*)SPI3_BASE_ADDR
 #define SPI4 (SPI_Reg_Def_t*)SPI4_BASE_ADDR
 
+/*Peripheral definitions for I2C*/
+#define I2C1 (I2C_Reg_Def_t*)I2C1_BASE_ADDR
+#define I2C2 (I2C_Reg_Def_t*)I2C2_BASE_ADDR
+#define I2C3 (I2C_Reg_Def_t*)I2C3_BASE_ADDR
+
 
 /*Peripheral definitions for RCC*/
 #define RCC (RCC_Reg_Def_t*)RCC_BASE_ADDR
@@ -257,62 +280,7 @@ __vo uint32_t SYSCFG_EXTICR[4];
 #define EXTI_BASE_ADDR		(APB2_PER_BASE_ADDR + 0x0400UL)
 #define SYSCFG_BASE_ADDR	(APB2_PER_BASE_ADDR + 0x0000UL)
 
-/*
- * macro to get the port code. The base address of the peripheral is given to
- * the function and it generates corresponding port code.
- */
-#define GET_PORT_CODE(x)	     ((x == GPIOA) ? 0 : \
-								  (x == GPIOB) ? 1 : \
-								  (x == GPIOC) ? 2 : \
-								  (x == GPIOD) ? 3 : \
-								  (x == GPIOE) ? 4 : \
-								  (x == GPIOF) ? 5 : \
-								  (x == GPIOG) ? 6 : \
-								  (x == GPIOH) ? 7 : 0)
-
-/*SPI register bit position macros */
-//SPI control register 1
-#define SPI_CR1_CPHA		0
-#define SPI_CR1_CPOL		1
-#define SPI_CR1_MSTR		2
-#define SPI_CR1_BR			3
-#define SPI_CR1_SPE			6
-#define SPI_CR1_LSBFIRST	7
-#define SPI_CR1_SSI			8
-#define SPI_CR1_SSM			9
-#define SPI_CR1_RXONLY		10
-#define SPI_CR1_CRCL		11
-#define SPI_CR1_CRCNEXT		12
-#define SPI_CR1_CRCEN		13
-#define SPI_CR1_BIDIOE		14
-#define SPI_CR1_BIDIMODE	15
-//SPI control register 2
-
-#define SPI_CR2_RXDMAEN		0
-#define SPI_CR2_TXDMAEN		1
-#define SPI_CR2_SSOE		2
-#define SPI_CR2_NSSP		3
-#define SPI_CR2_FRF			4
-#define SPI_CR2_ERRIE		5
-#define SPI_CR2_RXNEIE		6
-#define SPI_CR2_TXEIE		7
-#define SPI_CR2_DS			8
-#define SPI_CR2_FRXTH		12
-#define SPI_CR2_LDMA_RX	 	13
-#define SPI_CR2_LDMA_TX	 	14
-//SPI status register
-#define SPI_SR_RXNE			0
-#define SPI_SR_TXE			1
-#define SPI_SR_CHSIDE		2
-#define SPI_SR_UDR			3
-#define SPI_SR_CRCERR		4
-#define SPI_SR_MODF			5
-#define SPI_SR_OVR			6
-#define SPI_SR_BSY			7
-#define SPI_SR_FRE			8
-#define SPI_SR_FRLVL		9
-#define SPI_SR_FTLVL		11
-
-#include "stm32f303xx_spi_drv.h"
-#include "stm32f303xx_gpio_drv.h"
+//#include "stm32f303xx_i2c_drv.h"
+//#include "stm32f303xx_spi_drv.h"
+//#include "stm32f303xx_gpio_drv.h"
 #endif /* INC_STM32F303XX_H_ */

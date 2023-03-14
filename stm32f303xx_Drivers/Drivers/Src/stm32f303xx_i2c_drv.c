@@ -9,4 +9,16 @@
  *=====================================================================================
  */
 
+#include "stm32f303xx_i2c_drv.h"
+/*
+ * Clock enable and disable macros.
+ */
+RCC_Reg_Def_t *piRCC = RCC;
+#define I2C1_PCLK_EN() (piRCC->RCC_APB2ENR |= (1 << 21) )
+#define I2C2_PCLK_EN() (piRCC->RCC_APB1ENR |= (1 << 22) )
+#define I2C3_PCLK_EN() (piRCC->RCC_APB1ENR |= (1 << 30) )
+
+#define I2C1_PCLK_DI() (piRCC->RCC_APB2ENR &= ~(1 << 21) )
+#define I2C2_PCLK_DI() (piRCC->RCC_APB1ENR &= ~(1 << 22) )
+#define I2C3_PCLK_DI() (piRCC->RCC_APB1ENR &= ~(1 << 30) )
 
