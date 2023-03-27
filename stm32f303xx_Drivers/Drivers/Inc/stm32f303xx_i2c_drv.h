@@ -83,10 +83,10 @@ typedef struct
 }I2C_Config_t;
 
 
-/*Handle for spi*/
+/*Handle for i2c*/
 typedef struct
 {
-	I2C_Reg_Def_t *pI2Cx; //pointer to hold the base address of the spi line
+	I2C_Reg_Def_t *pI2Cx; //pointer to hold the base address of the i2c line
 	I2C_Config_t I2CConfig;
 
 }I2C_Handle_t;
@@ -113,7 +113,7 @@ typedef struct
 /*
  * Peripheral clock setup.
  */
-void I2C_PCLKControl(I2C_Reg_Def_t *pSPIx, uint8_t ENorDI);
+void I2C_PCLKControl(I2C_Reg_Def_t *pI2Cx, uint8_t ENorDI);
 
 
 /*
@@ -148,7 +148,7 @@ void I2C_peri_control(I2C_Reg_Def_t *pI2Cx, uint8_t ENorDI);
 void I2C_SSIConfig(I2C_Reg_Def_t *pI2Cx, uint8_t ENorDI);
 void I2C_SSOEConfig(I2C_Reg_Def_t *pI2Cx, uint8_t ENorDI);
 
-/*apis for the application to clear ovr flag and close the spi- used when irq used.*/
+/*apis for the application to clear ovr flag and close the i2c- used when irq used.*/
 void I2C_ClearOVRFlag(I2C_Reg_Def_t *pI2Cx);
 void I2C_CloseTransmission(I2C_Handle_t *pI2CHandle);
 void I2C_CloseReception(I2C_Handle_t *pI2CHandle);
