@@ -95,4 +95,24 @@ void I2C_DeInit(I2C_Reg_Def_t *pI2Cx)
 	}
 }
 
-
+/*
+ * ===  FUNCTION  ======================================================================
+ *   Name		:  I2C_peri_control
+ *   Description:  Function to enable or disable I2C peripheral.
+ *   Inputs		:  Pointer to base address of the I2C port, Enable or disable variable
+ * Output/return:  None.
+ * =====================================================================================
+ */
+void I2C_peri_control(I2C_Reg_Def_t *pI2Cx, uint8_t ENorDI)
+{
+ if(ENorDI == ENABLE)
+ {
+	 //set the PE bit in cr1 reg
+	 pI2Cx->CR1 |= (1 << I2C_CR1_PE);
+ }
+ else
+ {
+	 //reset the PE bit in cr1 reg
+	 pI2Cx->CR1 &= ~(1 << I2C_CR1_PE);
+ }
+}
