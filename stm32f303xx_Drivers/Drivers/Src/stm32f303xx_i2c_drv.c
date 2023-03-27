@@ -14,13 +14,21 @@
  * Clock enable and disable macros.
  */
 RCC_Reg_Def_t *piRCC = RCC;
-#define I2C1_PCLK_EN() (piRCC->RCC_APB2ENR |= (1 << 21) )
+#define I2C1_PCLK_EN() (piRCC->RCC_APB1ENR |= (1 << 21) )
 #define I2C2_PCLK_EN() (piRCC->RCC_APB1ENR |= (1 << 22) )
 #define I2C3_PCLK_EN() (piRCC->RCC_APB1ENR |= (1 << 30) )
 
-#define I2C1_PCLK_DI() (piRCC->RCC_APB2ENR &= ~(1 << 21) )
+#define I2C1_PCLK_DI() (piRCC->RCC_APB1ENR &= ~(1 << 21) )
 #define I2C2_PCLK_DI() (piRCC->RCC_APB1ENR &= ~(1 << 22) )
 #define I2C3_PCLK_DI() (piRCC->RCC_APB1ENR &= ~(1 << 30) )
+
+
+/*
+ * I2C reset macros
+ */
+#define I2C1_REG_RESET() 	do{(psRCC->RCC_APB1RSTR |= (1 << 12));	(psRCC->RCC_APB1RSTR &= ~(1 << 12));} while(0)
+#define I2C2_REG_RESET() 	do{(psRCC->RCC_APB1RSTR |= (1 << 14));	(psRCC->RCC_APB1RSTR &= ~(1 << 14));} while(0)
+#define I2C3_REG_RESET() 	do{(psRCC->RCC_APB1RSTR |= (1 << 15));	(psRCC->RCC_APB1RSTR &= ~(1 << 15));} while(0)
 
 /*
  * ===  FUNCTION  ======================================================================
