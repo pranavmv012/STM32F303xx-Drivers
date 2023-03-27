@@ -125,19 +125,14 @@ void I2C_DeInit(I2C_Reg_Def_t *pI2Cx);
 /*
  * Data send and receive.
  */
-void I2C_SendData(I2C_Reg_Def_t *pI2Cx, uint8_t *pTxbuffer, uint32_t Len);
-void I2C_ReceiveData(I2C_Reg_Def_t *pI2Cx, uint8_t *pRxbuffer, uint32_t Len);
-/*
- * Data send and receive with interrupt
- */
-uint8_t I2C_SendDataIT(I2C_Handle_t *pI2CHandle, uint8_t *pTxbuffer, uint32_t Len);
-uint8_t I2C_ReceiveDataIT(I2C_Handle_t *pI2CHandle, uint8_t *pRxbuffer, uint32_t Len);
+
+
+
 /*
  * Irq config and irq handling..
  */
 void I2C_IRQConfig(uint8_t IRQNum, uint8_t ENorDI);
 void I2C_IRQ_PriorityConfig(uint8_t IRQNum, uint32_t IRQPriority);
-void I2C_IRQHandler(I2C_Handle_t *pI2CHandle);
 
 uint8_t  I2CgetFlagStatus(I2C_Reg_Def_t *pI2Cx, uint32_t FlagName);
 
@@ -145,13 +140,7 @@ uint8_t  I2CgetFlagStatus(I2C_Reg_Def_t *pI2Cx, uint32_t FlagName);
  * Other I2C apis
  */
 void I2C_peri_control(I2C_Reg_Def_t *pI2Cx, uint8_t ENorDI);
-void I2C_SSIConfig(I2C_Reg_Def_t *pI2Cx, uint8_t ENorDI);
-void I2C_SSOEConfig(I2C_Reg_Def_t *pI2Cx, uint8_t ENorDI);
 
-/*apis for the application to clear ovr flag and close the i2c- used when irq used.*/
-void I2C_ClearOVRFlag(I2C_Reg_Def_t *pI2Cx);
-void I2C_CloseTransmission(I2C_Handle_t *pI2CHandle);
-void I2C_CloseReception(I2C_Handle_t *pI2CHandle);
 /*call back function that has to be implemented by the app.*/
 void I2C_applicationEventCallback(I2C_Handle_t *pI2CHandle, uint8_t AppEvent);
 
