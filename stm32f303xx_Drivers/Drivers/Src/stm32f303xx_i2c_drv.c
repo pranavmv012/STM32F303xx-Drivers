@@ -26,9 +26,9 @@ RCC_Reg_Def_t *piRCC = RCC;
 /*
  * I2C reset macros
  */
-#define I2C1_REG_RESET() 	do{(psRCC->RCC_APB1RSTR |= (1 << 12));	(psRCC->RCC_APB1RSTR &= ~(1 << 12));} while(0)
-#define I2C2_REG_RESET() 	do{(psRCC->RCC_APB1RSTR |= (1 << 14));	(psRCC->RCC_APB1RSTR &= ~(1 << 14));} while(0)
-#define I2C3_REG_RESET() 	do{(psRCC->RCC_APB1RSTR |= (1 << 15));	(psRCC->RCC_APB1RSTR &= ~(1 << 15));} while(0)
+#define I2C1_REG_RESET() 	do{(piRCC->RCC_APB1RSTR |= (1 << 12));	(piRCC->RCC_APB1RSTR &= ~(1 << 12));} while(0)
+#define I2C2_REG_RESET() 	do{(piRCC->RCC_APB1RSTR |= (1 << 14));	(piRCC->RCC_APB1RSTR &= ~(1 << 14));} while(0)
+#define I2C3_REG_RESET() 	do{(piRCC->RCC_APB1RSTR |= (1 << 15));	(piRCC->RCC_APB1RSTR &= ~(1 << 15));} while(0)
 
 /*
  * ===  FUNCTION  ======================================================================
@@ -68,6 +68,31 @@ void I2C_PCLKControl(I2C_Reg_Def_t *pI2Cx, uint8_t ENorDI)
 			 I2C3_PCLK_DI();
 		 }
    }
+}
+
+
+
+
+/*
+ * ===  FUNCTION  ======================================================================
+ *   Name		:  I2C_DeInit
+ *   Description:  Function to de-initialize I2C
+ *   Inputs		:  Pointer to the base address of the I2C
+ * Output/return:  None.
+ * =====================================================================================
+ */
+void I2C_DeInit(I2C_Reg_Def_t *pI2Cx)
+{
+	if(pI2Cx == I2C1)
+	{
+		I2C1_REG_RESET();
+	}else if(pI2Cx == I2C2)
+	{
+		I2C2_REG_RESET();
+	}else if(pI2Cx == I2C3)
+	{
+		I2C3_REG_RESET();
+	}
 }
 
 
